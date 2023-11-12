@@ -1,27 +1,16 @@
 package com.ops.ops.services;
 
 import com.ops.ops.dto.customer.CustomerDto;
-import com.ops.ops.mappers.Mapper;
-import com.ops.ops.persistence.entities.CustomerEntity;
-import com.ops.ops.persistence.repositories.CustomerRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
+public interface CustomerService {
 
-@Service
-@RequiredArgsConstructor
-public class CustomerService {
+    ResponseEntity<CustomerDto> create(CustomerDto customer);
 
-    private final CustomerRepository customerRepository;
-    private final Mapper<CustomerDto, CustomerEntity> customerMapper;
+    ResponseEntity<CustomerDto> get(Long id);
 
-    public void create(CustomerDto customer) {
-        customerRepository.save(customerMapper.toEntity(customer));
-    }
+    ResponseEntity<CustomerDto> update(Long id, CustomerDto customer);
 
-    public CustomerDto getCustomer(Long id) {
-        Optional<CustomerEntity> byId = customerRepository.findById(id);
-        return customerMapper.toDto(byId.orElse(null));
-    }
+    ResponseEntity<CustomerDto> delete(Long id);
+
 }
