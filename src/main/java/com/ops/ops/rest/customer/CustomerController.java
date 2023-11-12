@@ -1,4 +1,4 @@
-package com.ops.ops.controllers;
+package com.ops.ops.rest.customer;
 
 import com.ops.ops.dto.customer.CustomerDto;
 import com.ops.ops.services.CustomerService;
@@ -13,8 +13,13 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping(path = "/customers")
-    public ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto customer) {
-        return customerService.create(customer);
+    public ResponseEntity<CustomerDto> createCustomer(@RequestBody CreateCustomerRequest request) {
+        return customerService
+                .create(CustomerDto.builder()
+                        .name(request.getName())
+                        .phoneNumber(request.getPhoneNumber())
+                        .address(request.getAddress())
+                        .build());
     }
 
     @GetMapping(path = "/customers")
@@ -24,7 +29,7 @@ public class CustomerController {
 
     @PutMapping(path = "/customers")
     public ResponseEntity<CustomerDto> updateCustomer(@RequestParam("id") Long id,
-                                      @RequestBody CustomerDto customer) {
+                                                      @RequestBody CustomerDto customer) {
         return customerService.update(id, customer);
     }
 
