@@ -9,12 +9,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class CustomerDto {
 
-    private Long id;
-
     private String name;
 
-    private String phoneNumber;
-
     private String address;
+
+    private String nickname;
+
+    private String phoneNumber;
 
 }

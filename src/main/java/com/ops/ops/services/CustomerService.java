@@ -7,10 +7,10 @@ public interface CustomerService {
 
     ResponseEntity<CustomerDto> create(CustomerDto customer);
 
-    ResponseEntity<CustomerDto> get(Long id);
+    ResponseEntity<CustomerDto> get(String nickname);
 
-    ResponseEntity<CustomerDto> update(Long id, CustomerDto customer);
+    ResponseEntity<CustomerDto> update(String nickname, CustomerDto customer);
 
-    ResponseEntity<CustomerDto> delete(Long id);
+    ResponseEntity<CustomerDto> delete(String nickname);
 
 }

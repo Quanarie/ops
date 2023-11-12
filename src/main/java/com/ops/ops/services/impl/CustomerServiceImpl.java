@@ -21,14 +21,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public ResponseEntity<CustomerDto> create(CustomerDto customer) {
+        if(customerRepository.existsByNickname(customer.getNickname())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         customerRepository.save(customerMapper.toEntity(customer));
 
         return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<CustomerDto> get(Long id) {
-        Optional<CustomerEntity> optionalResult = customerRepository.findById(id);
+    public ResponseEntity<CustomerDto> get(String nickname) {
+        Optional<CustomerEntity> optionalResult = customerRepository.findByNickname(nickname);
         if (optionalResult.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -39,20 +43,20 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseEntity<CustomerDto> update(Long id, CustomerDto customer) {
-        if(!customerRepository.existsById(id)) {
+    public ResponseEntity<CustomerDto> update(String nickname, CustomerDto customer) {
+        if(!customerRepository.existsByNickname(nickname)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        customer.setId(id);
+        customer.setNickname(nickname);
         customerRepository.save(customerMapper.toEntity(customer));
 
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CustomerDto> delete(Long id) {
-        customerRepository.deleteById(id);
+    public ResponseEntity<CustomerDto> delete(String nickname) {
+        customerRepository.deleteById(nickname);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

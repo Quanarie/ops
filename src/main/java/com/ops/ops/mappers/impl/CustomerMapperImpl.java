@@ -14,7 +14,7 @@ public class CustomerMapperImpl implements Mapper<CustomerDto, CustomerEntity> {
     public CustomerEntity toEntity(CustomerDto customerDto) {
         return CustomerEntity.builder()
                 .address(customerDto.getAddress())
-                .id(customerDto.getId())
+                .nickname(customerDto.getNickname())
                 .name(customerDto.getName())
                 .phoneNumber(customerDto.getPhoneNumber())
                 .build();
@@ -24,7 +24,7 @@ public class CustomerMapperImpl implements Mapper<CustomerDto, CustomerEntity> {
     public CustomerDto toDto(CustomerEntity customerEntity) {
         return CustomerDto.builder()
                 .address(customerEntity.getAddress())
-                .id(customerEntity.getId())
+                .nickname(customerEntity.getNickname())
                 .name(customerEntity.getName())
                 .phoneNumber(customerEntity.getPhoneNumber())
                 .build();

@@ -14,14 +14,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "customers")
 public class CustomerEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
-    private Long id;
-
     private String name;
 
-    private String phoneNumber;
-
     private String address;
+
+    @Id
+    private String nickname;
+
+    private String phoneNumber;
 
 }
