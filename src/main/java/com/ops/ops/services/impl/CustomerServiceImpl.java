@@ -1,7 +1,8 @@
 package com.ops.ops.services.impl;
 
 import com.ops.ops.dto.customer.CustomerDto;
-import com.ops.ops.mappers.Mapper;
+import com.ops.ops.dto.customer.UpdateCustomerRequest;
+import com.ops.ops.mappers.CustomerMapper;
 import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
 import com.ops.ops.services.CustomerService;
@@ -17,7 +18,6 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final Mapper<CustomerDto, CustomerEntity> customerMapper;
 
     @Override
     public ResponseEntity<CustomerDto> create(CustomerDto customer) {
@@ -25,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        customerRepository.save(customerMapper.toEntity(customer));
+        customerRepository.save(CustomerMapper.dtoToEntity(customer));
 
         return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
@@ -37,21 +37,24 @@ public class CustomerServiceImpl implements CustomerService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        CustomerDto res = customerMapper.toDto(optionalResult.get());
+        CustomerDto res = CustomerMapper.entityToDto(optionalResult.get());
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CustomerDto> update(String nickname, CustomerDto customer) {
+    public ResponseEntity<CustomerDto> update(String nickname, UpdateCustomerRequest request) {
         if(!customerRepository.existsByNickname(nickname)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        customer.setNickname(nickname);
-        customerRepository.save(customerMapper.toEntity(customer));
+        CustomerEntity customerEntity = CustomerMapper.updateRequestToEntity(request);
+        customerEntity.setNickname(nickname);
 
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        customerRepository.save(customerEntity);
+
+        return new ResponseEntity<>(CustomerMapper.entityToDto(customerEntity), HttpStatus.OK);
+        
     }
 
     @Override

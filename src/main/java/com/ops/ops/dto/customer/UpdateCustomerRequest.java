@@ -1,20 +1,15 @@
 package com.ops.ops.dto.customer;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
-public class CustomerDto {
+public class UpdateCustomerRequest {
 
     private String name;
 
     private String address;
-
-    private String nickname;
 
     private String phoneNumber;
 

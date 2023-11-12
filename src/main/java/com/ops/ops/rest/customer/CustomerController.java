@@ -1,6 +1,7 @@
 package com.ops.ops.rest.customer;
 
 import com.ops.ops.dto.customer.CustomerDto;
+import com.ops.ops.dto.customer.UpdateCustomerRequest;
 import com.ops.ops.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,11 @@ public class CustomerController {
         return customerService.get(nickname);
     }
 
+    // Without nickname change
     @PutMapping(path = "/customers")
     public ResponseEntity<CustomerDto> updateCustomer(@RequestParam("nickname") String nickname,
-                                                      @RequestBody CustomerDto customer) {
-        return customerService.update(nickname, customer);
+                                                      @RequestBody UpdateCustomerRequest request) {
+        return customerService.update(nickname, request);
     }
 
     @DeleteMapping(path = "/customers")

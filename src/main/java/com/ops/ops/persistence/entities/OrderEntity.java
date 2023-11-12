@@ -22,11 +22,11 @@ public class OrderEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+//    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+//    @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
     private int quantity;
