@@ -23,7 +23,7 @@ public class CustomerEntity {
     private String address;
 
     @Column(unique = true)
-    private String nickname;
+    private String username;
 
     private String phoneNumber;
 

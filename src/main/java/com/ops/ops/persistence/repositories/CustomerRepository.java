@@ -9,7 +9,9 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<CustomerEntity, String> {
 
-    Optional<CustomerEntity> findByNickname(String nickname);
-    boolean existsByNickname(String nickname);
+    Optional<CustomerEntity> findByUsername(String username);
+    boolean existsByUsername(String username);
+
+    void deleteByUsername(String username);
 
 }

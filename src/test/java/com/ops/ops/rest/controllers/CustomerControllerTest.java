@@ -2,17 +2,18 @@ package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ops.ops.TestCustomers;
-import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
 import com.ops.ops.mappers.CustomerMapper;
 import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
+import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
+import com.ops.ops.rest.dto.customer.responces.CustomerDto;
+import com.ops.ops.utils.exceptions.CustomerException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -43,7 +44,7 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk());
 
         CustomerEntity customerEntity = customerRepository
-                .findByNickname(customerDto.getNickname())
+                .findByUsername(customerDto.getUsername())
                 .orElse(null);
 
         assertNotNull(customerEntity);
@@ -54,8 +55,8 @@ public class CustomerControllerTest {
     }
 
     @Test
-    void shouldNotCreateCustomersWithSameNickname() throws Exception {
-        customerRepository.save(TestCustomers.CUSTOMER_ENTITY); //same nickname as CUSTOMER_DTO
+    void shouldNotCreateCustomersWithSameUsername() throws Exception {
+        customerRepository.save(TestCustomers.CUSTOMER_ENTITY); //same username as CUSTOMER_DTO
 
         mockMvc.perform(post("/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -69,7 +70,7 @@ public class CustomerControllerTest {
         customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
 
         String response = mockMvc.perform(get("/customers")
-                        .param("nickname", TestCustomers.CUSTOMER_ENTITY.getNickname())
+                        .param("username", TestCustomers.CUSTOMER_ENTITY.getUsername())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -85,7 +86,7 @@ public class CustomerControllerTest {
         UpdateCustomerDto request = TestCustomers.UPDATE_CUSTOMER_DTO;
 
         String response = mockMvc.perform(put("/customers")
-                        .param("nickname", TestCustomers.CUSTOMER_ENTITY.getNickname())
+                        .param("username", TestCustomers.CUSTOMER_ENTITY.getUsername())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -93,7 +94,7 @@ public class CustomerControllerTest {
 
         // change it bruh
         CustomerDto customerDtoAfterUpdate = CustomerMapper.toDto(customerRepository
-                .findByNickname(TestCustomers.CUSTOMER_ENTITY.getNickname()).get());
+                .findByUsername(TestCustomers.CUSTOMER_ENTITY.getUsername()).get());
 
         assertEquals(response, objectMapper.writeValueAsString(customerDtoAfterUpdate));
     }

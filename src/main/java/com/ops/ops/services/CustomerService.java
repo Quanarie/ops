@@ -8,10 +8,10 @@ public interface CustomerService {
 
     CustomerDto create(CreateCustomerDto request);
 
-    CustomerDto get(String nickname);
+    CustomerDto get(String username);
 
-    CustomerDto update(String nickname, UpdateCustomerDto request);
+    CustomerDto update(String username, UpdateCustomerDto request);
 
-    void delete(String nickname);
+    void delete(String username);
 
 }

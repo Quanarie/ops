@@ -19,18 +19,18 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/customers")
-    public CustomerDto getCustomer(@RequestParam("nickname") String nickname) {
-        return customerService.get(nickname);
+    public CustomerDto getCustomer(@RequestParam("username") String username) {
+        return customerService.get(username);
     }
 
     @PutMapping(path = "/customers")
-    public CustomerDto updateCustomer(@RequestParam("nickname") String nickname,
+    public CustomerDto updateCustomer(@RequestParam("username") String username,
                                @RequestBody UpdateCustomerDto request) {
-        return customerService.update(nickname, request);
+        return customerService.update(username, request);
     }
 
     @DeleteMapping(path = "/customers")
-    public void deleteCustomer(@RequestParam("nickname") String nickname) {
-        customerService.delete(nickname);
+    public void deleteCustomer(@RequestParam("username") String username) {
+        customerService.delete(username);
     }
 }

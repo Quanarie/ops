@@ -11,7 +11,7 @@ public class CreateCustomerDto {
 
     private String address;
 
-    private String nickname;
+    private String username;
 
     private String phoneNumber;
 }

@@ -13,7 +13,7 @@ public class CustomerMapper  {
     public static CustomerEntity toEntity(CustomerDto customerDto) {
         return CustomerEntity.builder()
                 .address(customerDto.getAddress())
-                .nickname(customerDto.getNickname())
+                .username(customerDto.getUsername())
                 .name(customerDto.getName())
                 .phoneNumber(customerDto.getPhoneNumber())
                 .build();
@@ -22,7 +22,7 @@ public class CustomerMapper  {
     public static CustomerDto toDto(CustomerEntity customerEntity) {
         return CustomerDto.builder()
                 .address(customerEntity.getAddress())
-                .nickname(customerEntity.getNickname())
+                .username(customerEntity.getUsername())
                 .name(customerEntity.getName())
                 .phoneNumber(customerEntity.getPhoneNumber())
                 .build();
@@ -31,7 +31,7 @@ public class CustomerMapper  {
     public static CustomerEntity toEntity(CreateCustomerDto request) {
         return CustomerEntity.builder()
                 .address(request.getAddress())
-                .nickname(request.getNickname())
+                .username(request.getUsername())
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
                 .build();

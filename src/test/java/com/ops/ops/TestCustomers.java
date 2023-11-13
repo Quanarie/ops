@@ -22,7 +22,7 @@ public class TestCustomers {
     private static CustomerDto createCustomerDto() {
         return CustomerDto.builder()
                 .address("New York")
-                .nickname("superHero")
+                .username("superHero")
                 .name("Peter Parker")
                 .phoneNumber("1234567890")
                 .build();
@@ -32,7 +32,7 @@ public class TestCustomers {
         return CustomerEntity.builder()
                 .id(1L)
                 .address("New York")
-                .nickname("superHero")
+                .username("superHero")
                 .name("Peter Parker")
                 .phoneNumber("1234567890")
                 .build();

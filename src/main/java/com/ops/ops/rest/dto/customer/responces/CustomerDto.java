@@ -13,7 +13,7 @@ public class CustomerDto {
 
     private String address;
 
-    private String nickname;
+    private String username;
 
     private String phoneNumber;
 
