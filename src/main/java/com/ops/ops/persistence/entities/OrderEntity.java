@@ -1,13 +1,13 @@
 package com.ops.ops.persistence.entities;
 
-import com.ops.ops.dto.order.OrderStatus;
+import com.ops.ops.rest.dto.order.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -22,17 +22,17 @@ public class OrderEntity {
     private Long id;
 
     @ManyToOne
-//    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
     @ManyToOne
-//    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
     private int quantity;
 
     private OrderStatus status;
 
-    private Date creationDate;
+    private LocalDateTime creationDate;
 
 }

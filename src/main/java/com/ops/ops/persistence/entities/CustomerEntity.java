@@ -14,11 +14,15 @@ import lombok.NoArgsConstructor;
 @Table(name = "customers")
 public class CustomerEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
+    private Long id;
+
     private String name;
 
     private String address;
 
-    @Id
+    @Column(unique = true)
     private String nickname;
 
     private String phoneNumber;

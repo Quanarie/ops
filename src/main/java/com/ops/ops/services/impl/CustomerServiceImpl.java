@@ -1,14 +1,13 @@
 package com.ops.ops.services.impl;
 
-import com.ops.ops.dto.customer.CustomerDto;
-import com.ops.ops.dto.customer.UpdateCustomerRequest;
 import com.ops.ops.mappers.CustomerMapper;
 import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
+import com.ops.ops.rest.dto.customer.requests.CreateCustomerDto;
+import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
+import com.ops.ops.rest.dto.customer.responces.CustomerDto;
 import com.ops.ops.services.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,48 +19,52 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public ResponseEntity<CustomerDto> create(CustomerDto customer) {
-        if(customerRepository.existsByNickname(customer.getNickname())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+    public CustomerDto create(CreateCustomerDto request) {
+        if (customerRepository.existsByNickname(request.getNickname())) {
+            // exception
+            return null;
         }
 
-        customerRepository.save(CustomerMapper.dtoToEntity(customer));
+        CustomerEntity entity = CustomerMapper.toEntity(request);
 
-        return new ResponseEntity<>(customer, HttpStatus.CREATED);
+        customerRepository.save(entity);
+
+        return CustomerMapper.toDto(entity);
     }
 
     @Override
-    public ResponseEntity<CustomerDto> get(String nickname) {
-        Optional<CustomerEntity> optionalResult = customerRepository.findByNickname(nickname);
-        if (optionalResult.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public CustomerDto get(String nickname) {
+        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByNickname(nickname);
+        if (customerEntityOptional.isEmpty()) {
+            // exception
+            return null;
         }
 
-        CustomerDto res = CustomerMapper.entityToDto(optionalResult.get());
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        return CustomerMapper.toDto(customerEntityOptional.get());
     }
 
     @Override
-    public ResponseEntity<CustomerDto> update(String nickname, UpdateCustomerRequest request) {
-        if(!customerRepository.existsByNickname(nickname)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public CustomerDto update(String nickname, UpdateCustomerDto request) {
+        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByNickname(nickname);
+
+        if (customerEntityOptional.isEmpty()) {
+            // exception
+            return null;
         }
 
-        CustomerEntity customerEntity = CustomerMapper.updateRequestToEntity(request);
-        customerEntity.setNickname(nickname);
+        CustomerEntity customerEntity = customerEntityOptional.get();
+        customerEntity.setName(request.getName());
+        customerEntity.setPhoneNumber(request.getPhoneNumber());
+        customerEntity.setAddress(request.getAddress());
 
         customerRepository.save(customerEntity);
 
-        return new ResponseEntity<>(CustomerMapper.entityToDto(customerEntity), HttpStatus.OK);
-        
+        return CustomerMapper.toDto(customerEntity);
     }
 
     @Override
-    public ResponseEntity<CustomerDto> delete(String nickname) {
+    public void delete(String nickname) {
         customerRepository.deleteById(nickname);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.ops.ops.dto.product;
+package com.ops.ops.rest.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

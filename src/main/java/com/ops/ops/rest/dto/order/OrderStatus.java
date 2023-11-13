@@ -1,4 +1,4 @@
-package com.ops.ops.dto.order;
+package com.ops.ops.rest.dto.order;
 
 public enum OrderStatus {
     PENDING,

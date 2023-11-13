@@ -1,17 +1,17 @@
 package com.ops.ops.services;
 
-import com.ops.ops.dto.customer.CustomerDto;
-import com.ops.ops.dto.customer.UpdateCustomerRequest;
-import org.springframework.http.ResponseEntity;
+import com.ops.ops.rest.dto.customer.requests.CreateCustomerDto;
+import com.ops.ops.rest.dto.customer.responces.CustomerDto;
+import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
 
 public interface CustomerService {
 
-    ResponseEntity<CustomerDto> create(CustomerDto customer);
+    CustomerDto create(CreateCustomerDto request);
 
-    ResponseEntity<CustomerDto> get(String nickname);
+    CustomerDto get(String nickname);
 
-    ResponseEntity<CustomerDto> update(String nickname, UpdateCustomerRequest request);
+    CustomerDto update(String nickname, UpdateCustomerDto request);
 
-    ResponseEntity<CustomerDto> delete(String nickname);
+    void delete(String nickname);
 
 }

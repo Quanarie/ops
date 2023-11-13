@@ -2,15 +2,17 @@ package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ops.ops.TestCustomers;
-import com.ops.ops.dto.customer.CustomerDto;
-import com.ops.ops.dto.customer.UpdateCustomerRequest;
+import com.ops.ops.rest.dto.customer.responces.CustomerDto;
+import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
 import com.ops.ops.mappers.CustomerMapper;
 import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -33,19 +35,12 @@ public class CustomerControllerTest {
 
     @Test
     void shouldCreateCustomer() throws Exception {
-        customerRepository.deleteAll();
-
-        CustomerDto customerDto = CustomerDto.builder()
-                .name("Hulk")
-                .nickname("superHero")
-                .phoneNumber("0987654321")
-                .address("York New")
-                .build();
+        CustomerDto customerDto = TestCustomers.CUSTOMER_DTO;
 
         mockMvc.perform(post("/customers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerDto)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
         CustomerEntity customerEntity = customerRepository
                 .findByNickname(customerDto.getNickname())
@@ -60,63 +55,51 @@ public class CustomerControllerTest {
 
     @Test
     void shouldNotCreateCustomersWithSameNickname() throws Exception {
-        customerRepository.deleteAll();
-
-        CustomerDto customerDto = CustomerDto.builder()
-                .name("Hulk")
-                .nickname("superHero")
-                .phoneNumber("0987654321")
-                .address("York New")
-                .build();
-
-        customerRepository.save(TestCustomers.CUSTOMER_ENTITY); //same nickName
+        customerRepository.save(TestCustomers.CUSTOMER_ENTITY); //same nickname as CUSTOMER_DTO
 
         mockMvc.perform(post("/customers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(customerDto)))
+                        .content(objectMapper.writeValueAsString(TestCustomers.CUSTOMER_DTO)))
                 .andExpect(status().isConflict());
 
     }
 
     @Test
     void shouldGetCustomer() throws Exception {
-        customerRepository.deleteAll();
-
         customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
 
         String response = mockMvc.perform(get("/customers")
-                        .param("nickname", "superHero")
+                        .param("nickname", TestCustomers.CUSTOMER_ENTITY.getNickname())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        assertEquals(response, objectMapper.writeValueAsString(TestCustomers.CUSTOMER_ENTITY));
+        assertEquals(response, objectMapper.writeValueAsString(TestCustomers.CUSTOMER_DTO));
 
     }
 
     @Test
     void shouldUpdateCustomer() throws Exception {
-        customerRepository.deleteAll();
-
         customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
 
-        UpdateCustomerRequest request = UpdateCustomerRequest.builder()
-                .name("Hulk")
-                .phoneNumber("0987654321")
-                .address("York New")
-                .build();
+        UpdateCustomerDto request = TestCustomers.UPDATE_CUSTOMER_DTO;
 
         String response = mockMvc.perform(put("/customers")
                         .param("nickname", TestCustomers.CUSTOMER_ENTITY.getNickname())
-                        .contentType("application/json")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        CustomerDto customerDtoAfterUpdate = CustomerMapper.entityToDto(
-                CustomerMapper.updateRequestToEntity(request));
-        customerDtoAfterUpdate.setNickname(TestCustomers.CUSTOMER_ENTITY.getNickname());
+        // change it bruh
+        CustomerDto customerDtoAfterUpdate = CustomerMapper.toDto(customerRepository
+                .findByNickname(TestCustomers.CUSTOMER_ENTITY.getNickname()).get());
 
         assertEquals(response, objectMapper.writeValueAsString(customerDtoAfterUpdate));
+    }
+
+    @AfterEach
+    void cleanup() {
+        customerRepository.deleteAll();
     }
 }

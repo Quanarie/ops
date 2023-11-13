@@ -1,14 +1,11 @@
-package com.ops.ops.dto.customer;
+package com.ops.ops.rest.dto.customer.requests;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
-public class CustomerDto {
+public class CreateCustomerDto {
 
     private String name;
 
@@ -17,5 +14,4 @@ public class CustomerDto {
     private String nickname;
 
     private String phoneNumber;
-
 }
