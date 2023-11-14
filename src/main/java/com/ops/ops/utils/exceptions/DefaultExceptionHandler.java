@@ -1,16 +1,18 @@
 package com.ops.ops.utils.exceptions;
 
+import com.ops.ops.utils.exceptions.ops.exceptions.OpsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class DefaultExceptionHandler {
+public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(CustomerException.class)
-    public ResponseEntity<ErrorDto> handleCustomerException(CustomerException ex, WebRequest request) {
+    @ExceptionHandler(OpsException.class)
+    public ResponseEntity<ErrorDto> handleCustomerException(OpsException ex, WebRequest request) {
         ErrorDto errorDTO = new ErrorDto(ex.getLocalizedMessage(), ex.getExceptionCode());
         return buildResponseEntity(ex.getHttpStatus(), errorDTO);
     }

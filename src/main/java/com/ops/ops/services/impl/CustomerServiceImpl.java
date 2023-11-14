@@ -8,9 +8,9 @@ import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;
 import com.ops.ops.services.CustomerService;
 import com.ops.ops.utils.ExceptionCodes;
-import com.ops.ops.utils.exceptions.CustomerException;
+import com.ops.ops.utils.exceptions.ops.exceptions.ConflictException;
+import com.ops.ops.utils.exceptions.ops.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,10 +25,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto create(CreateCustomerDto request) {
         Optional<CustomerEntity> customerEntityOptional = customerRepository.findByUsername(request.getUsername());
         if (customerEntityOptional.isPresent()) {
-            throw new CustomerException(
+            throw new ConflictException(
                     "Username " + request.getUsername() + " is already taken",
-                    ExceptionCodes.CUSTOMER_ALREADY_EXISTS,
-                    HttpStatus.CONFLICT
+                    ExceptionCodes.CUSTOMER_ALREADY_EXISTS
             );
         }
 
@@ -43,10 +42,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto get(String username) {
         Optional<CustomerEntity> customerEntityOptional = customerRepository.findByUsername(username);
         if (customerEntityOptional.isEmpty()) {
-            throw new CustomerException(
+            throw new NotFoundException(
                     "Profile with username " + username + " does not exist",
-                    ExceptionCodes.CUSTOMER_NOT_FOUND,
-                    HttpStatus.NOT_FOUND
+                    ExceptionCodes.CUSTOMER_NOT_FOUND
             );
         }
 
@@ -57,10 +55,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto update(String username, UpdateCustomerDto request) {
         Optional<CustomerEntity> customerEntityOptional = customerRepository.findByUsername(username);
         if (customerEntityOptional.isEmpty()) {
-            throw new CustomerException(
+            throw new NotFoundException(
                     "Profile with username " + username + " does not exist",
-                    ExceptionCodes.CUSTOMER_NOT_FOUND,
-                    HttpStatus.NOT_FOUND
+                    ExceptionCodes.CUSTOMER_NOT_FOUND
             );
         }
 

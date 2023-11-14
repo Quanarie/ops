@@ -7,8 +7,6 @@ import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
 import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import com.ops.ops.utils.exceptions.CustomerException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,6 @@ public class CustomerControllerTest {
         assertEquals(customerDto.getName(), customerEntity.getName());
         assertEquals(customerDto.getPhoneNumber(), customerEntity.getPhoneNumber());
         assertEquals(customerDto.getAddress(), customerEntity.getAddress());
-
     }
 
     @Test
@@ -62,7 +59,6 @@ public class CustomerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(TestCustomers.CUSTOMER_DTO)))
                 .andExpect(status().isConflict());
-
     }
 
     @Test
@@ -76,7 +72,6 @@ public class CustomerControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         assertEquals(response, objectMapper.writeValueAsString(TestCustomers.CUSTOMER_DTO));
-
     }
 
     @Test

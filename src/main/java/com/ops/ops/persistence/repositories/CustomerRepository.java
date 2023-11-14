@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<CustomerEntity, String> {
 
     Optional<CustomerEntity> findByUsername(String username);
-    boolean existsByUsername(String username);
 
     void deleteByUsername(String username);
 
