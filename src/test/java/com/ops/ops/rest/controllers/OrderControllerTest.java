@@ -1,24 +1,15 @@
 package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ops.ops.TestCustomers;
-import com.ops.ops.persistence.entities.CustomerEntity;
-import com.ops.ops.persistence.repositories.CustomerRepository;
 import com.ops.ops.persistence.repositories.OrderRepository;
-import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import org.junit.jupiter.api.AfterEach;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 public class OrderControllerTest {
@@ -36,8 +27,28 @@ public class OrderControllerTest {
 
     }
 
-    @AfterEach
-    void cleanup() {
-        orderRepository.deleteAll();
+    @Test
+    void shouldGetOrder() throws Exception {
+
+    }
+
+    @Test
+    void shouldTrackOrder() throws Exception {
+
+    }
+
+    @Test
+    void shouldUpdateOrder() throws Exception {
+
+    }
+
+    @Test
+    void shouldGetOrderHistory() throws Exception {
+
+    }
+
+    @Test
+    void shouldDeleteOrder() throws Exception {
+
     }
 }

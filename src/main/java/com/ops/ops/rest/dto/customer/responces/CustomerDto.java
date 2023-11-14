@@ -1,5 +1,6 @@
 package com.ops.ops.rest.dto.customer.responces;
 
+import com.ops.ops.rest.dto.customer.CustomerRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,7 @@ public class CustomerDto {
     private String username;
 
     private String phoneNumber;
+
+    private CustomerRole role;
 
 }

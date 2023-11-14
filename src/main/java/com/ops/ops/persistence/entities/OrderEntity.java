@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -21,9 +23,12 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     private Long id;
 
+    @UuidGenerator
+    private UUID uuid;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    private OfferEntity product;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

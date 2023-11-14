@@ -1,5 +1,6 @@
 package com.ops.ops.persistence.entities;
 
+import com.ops.ops.rest.dto.customer.CustomerRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,10 @@ public class CustomerEntity {
     @Column(unique = true)
     private String username;
 
+    private String passwordHash;
+
     private String phoneNumber;
+
+    private CustomerRole role;
 
 }

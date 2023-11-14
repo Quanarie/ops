@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UpdateCustomerDto {
+public class UpdateCustomerRequest {
 
     private String name;
 

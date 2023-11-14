@@ -1,8 +1,8 @@
 package com.ops.ops.rest.customer;
 
-import com.ops.ops.rest.dto.customer.requests.CreateCustomerDto;
+import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import com.ops.ops.rest.dto.customer.requests.UpdateCustomerDto;
+import com.ops.ops.rest.dto.customer.requests.UpdateCustomerRequest;
 import com.ops.ops.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping(path = "/customers")
-    public CustomerDto createCustomer(@RequestBody CreateCustomerDto request) {
+    public CustomerDto createCustomer(@RequestBody CreateCustomerRequest request) {
         return customerService.create(request);
     }
 
@@ -25,7 +25,7 @@ public class CustomerController {
 
     @PutMapping(path = "/customers")
     public CustomerDto updateCustomer(@RequestParam("username") String username,
-                               @RequestBody UpdateCustomerDto request) {
+                               @RequestBody UpdateCustomerRequest request) {
         return customerService.update(username, request);
     }
 

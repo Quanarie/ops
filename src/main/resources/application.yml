@@ -11,3 +11,8 @@ spring:
         default_schema: public
         id:
           new_generator_mappings: true
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

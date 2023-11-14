@@ -17,18 +17,18 @@ repositories {
 }
 
 dependencies {
+	implementation 'junit:junit:4.5'
 	implementation 'org.postgresql:postgresql:42.2.27'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'junit:junit:4.5'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.projectlombok:lombok:1.18.28'
 
 	compileOnly 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-//	testImplementation 'org.codehaus.groovy:groovy-all:2.5.22'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
-
 }
 
 tasks.named('bootBuildImage') {
