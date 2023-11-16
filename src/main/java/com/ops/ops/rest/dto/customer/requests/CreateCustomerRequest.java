@@ -3,8 +3,9 @@ package com.ops.ops.rest.dto.customer.requests;
 import com.ops.ops.rest.dto.customer.CustomerRole;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class CreateCustomerRequest {
 

@@ -11,7 +11,6 @@ import com.ops.ops.utils.ExceptionCodes;
 import com.ops.ops.utils.exceptions.ops.exceptions.ConflictException;
 import com.ops.ops.utils.exceptions.ops.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +33,15 @@ public class CustomerServiceImpl implements CustomerService {
             );
         }
 
-        CustomerEntity customerEntity = CustomerMapper.toEntity(request);
+        customerRepository.save(CustomerMapper.toEntity(request));
 
-        customerRepository.save(customerEntity);
-
-        return CustomerMapper.toDto(customerEntity);
+        return CustomerMapper.toDto(customerRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new NotFoundException(
+                                "Problem with creation of user " + request.getUsername(),
+                                ExceptionCodes.CUSTOMER_NOT_FOUND
+                        )
+                )
+        );
     }
 
     @Override
@@ -73,7 +76,13 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerRepository.save(customerEntity);
 
-        return CustomerMapper.toDto(customerEntity);
+        return CustomerMapper.toDto(customerRepository.findByUsername(customerEntity.getUsername()) // ASK
+                .orElseThrow(() -> new NotFoundException(
+                                "Problem with getting user " + customerEntity.getUsername(),
+                                ExceptionCodes.CUSTOMER_NOT_FOUND
+                        )
+                )
+        );
     }
 
     @Override

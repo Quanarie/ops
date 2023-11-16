@@ -4,6 +4,7 @@ import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
 import com.ops.ops.utils.ExceptionCodes;
 import com.ops.ops.utils.exceptions.ops.exceptions.NotFoundException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -21,14 +22,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws NotFoundException {
-        CustomerEntity customer = customerRepository.findByUsername(username)
+        CustomerEntity customerEntity = customerRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(
                                 "Profile with username " + username + " does not exist",
                                 ExceptionCodes.CUSTOMER_NOT_FOUND
                         )
                 );
 
-        return new User(customer.getUsername(), customer.getPasswordHash(),
-                Collections.singletonList(new SimpleGrantedAuthority(customer.getRole().toString())));
+        return new User(customerEntity.getUsername(), customerEntity.getPasswordHash(),
+                Collections.singletonList(new SimpleGrantedAuthority(customerEntity.getRole().toString())));
     }
 }

@@ -1,6 +1,7 @@
 package com.ops.ops;
 
 import com.ops.ops.persistence.entities.CustomerEntity;
+import com.ops.ops.rest.dto.customer.CustomerRole;
 import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
 import com.ops.ops.rest.dto.customer.requests.UpdateCustomerRequest;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;
@@ -13,15 +14,38 @@ public class TestCustomers {
 
     public static CustomerDto CUSTOMER_DTO = createCustomerDto();
 
-    public static UpdateCustomerRequest UPDATE_CUSTOMER_REQUEST = createUpdateCustomerRequest();
+    public static CustomerDto UPDATED_CUSTOMER_DTO = createUpdatedCustomerDto();
 
     public static CreateCustomerRequest CREATE_CUSTOMER_REQUEST = createCreateCustomerRequest();
+
+    public static UpdateCustomerRequest UPDATE_CUSTOMER_REQUEST = createUpdateCustomerRequest();
+
+    private static CreateCustomerRequest createCreateCustomerRequest() {
+        return CreateCustomerRequest.builder()
+                .address("New York")
+                .username(testUsername)
+                .name("Peter Parker")
+                .phoneNumber("1234567890")
+                .password("effjehfjehfjhejffe")
+                .role(CustomerRole.BUYER)
+                .build();
+    }
 
     private static UpdateCustomerRequest createUpdateCustomerRequest() {
         return UpdateCustomerRequest.builder()
                 .address("New York")
-                .name("Peter Parker")
-                .phoneNumber("1234567890")
+                .name("Hulk")
+                .phoneNumber("0987654321")
+                .build();
+    }
+
+    private static CustomerDto createUpdatedCustomerDto() {
+        return CustomerDto.builder()
+                .address("New York")
+                .username(testUsername)
+                .name("Hulk")
+                .phoneNumber("0987654321")
+                .role(CustomerRole.BUYER)
                 .build();
     }
 
@@ -31,6 +55,7 @@ public class TestCustomers {
                 .username(testUsername)
                 .name("Peter Parker")
                 .phoneNumber("1234567890")
+                .role(CustomerRole.BUYER)
                 .build();
     }
 
@@ -42,16 +67,8 @@ public class TestCustomers {
                 .name("Peter Parker")
                 .phoneNumber("1234567890")
                 .passwordHash("$2y$10$NV2X1k1eGHOZGbXSesc0quJkPFAXrDZ4dkA938./n5UEBUe8Vl18q")
-                .build();
-    }
-
-    private static CreateCustomerRequest createCreateCustomerRequest() {
-        return CreateCustomerRequest.builder()
-                .address("New York")
-                .username(testUsername)
-                .name("Peter Parker")
-                .phoneNumber("1234567890")
-                .password("effjehfjehfjhejffe")
+                .role(CustomerRole.BUYER)
                 .build();
     }
 }
+

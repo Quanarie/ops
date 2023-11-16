@@ -1,15 +1,15 @@
 package com.ops.ops.mappers;
 
+import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import com.ops.ops.persistence.entities.CustomerEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class CustomerMapper  {
+
+    private static final BCryptPasswordEncoder encoder  = new BCryptPasswordEncoder();
 
     public static CustomerDto toDto(CustomerEntity customerEntity) {
         return CustomerDto.builder()
@@ -27,7 +27,7 @@ public class CustomerMapper  {
                 .username(request.getUsername())
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
-                .passwordHash((new BCryptPasswordEncoder()).encode(request.getPassword())) // ASK
+                .passwordHash(encoder.encode(request.getPassword())) // ASK fttb
                 .role(request.getRole())
                 .build();
     }

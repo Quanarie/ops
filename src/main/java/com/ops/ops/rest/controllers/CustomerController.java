@@ -1,4 +1,4 @@
-package com.ops.ops.rest.customer;
+package com.ops.ops.rest.controllers;
 
 import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;

@@ -2,10 +2,11 @@ package com.ops.ops.rest.dto.customer.requests;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
-public class UpdateCustomerRequest {
+public class UpdateCustomerRequest {    // TODO ASK нулі
 
     private String name;
 
