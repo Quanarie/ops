@@ -41,7 +41,7 @@ public class OfferControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.testUsername, roles = "SELLER")
     void shouldCreateOffer() throws Exception {
         CreateOfferRequest request = TestOffers.CREATE_OFFER_REQUEST;
 
@@ -74,7 +74,7 @@ public class OfferControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.testUsername, roles = "SELLER")
     void shouldUpdateOffer() throws Exception {
         offerRepository.save(TestOffers.OFFER_ENTITY);
 
@@ -92,7 +92,7 @@ public class OfferControllerTest {
 
     @Test
     @Transactional  // ASK без цього тест не проходиться
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.testUsername, roles = "SELLER")
     void shouldDeleteOffer() throws Exception {
         OfferEntity saved = offerRepository.save(TestOffers.OFFER_ENTITY);
 

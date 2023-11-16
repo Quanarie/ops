@@ -70,7 +70,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.testUsername, roles = "BUYER")
     void shouldCreateOrder() throws Exception {
         CreateOrderRequest request = TestOrders.CREATE_ORDER_REQUEST;
 
@@ -88,7 +88,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.testUsername, roles = "BUYER")
     void shouldGetOrder() throws Exception {
         orderRepository.save(TestOrders.ORDER_ENTITY);
 
@@ -106,7 +106,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.testUsername, roles = "DELIVERY_GUY")
     void shouldUpdateOrder() throws Exception {
         orderRepository.save(TestOrders.ORDER_ENTITY);
 
@@ -125,7 +125,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.testUsername, roles = "BUYER")
     void shouldDeleteOrder() throws Exception {
         OrderEntity savedOrderEntity = orderRepository.save(TestOrders.ORDER_ENTITY);
 
