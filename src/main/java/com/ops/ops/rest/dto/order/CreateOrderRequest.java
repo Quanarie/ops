@@ -1,10 +1,8 @@
-package com.ops.ops.rest.dto.order.requests;
+package com.ops.ops.rest.dto.order;
 
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
 import com.ops.ops.rest.dto.order.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.UUID;
 

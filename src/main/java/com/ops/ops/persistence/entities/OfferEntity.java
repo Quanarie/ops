@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -24,7 +25,7 @@ public class OfferEntity {
 
     private String title;
 
-    private Float price;
+    private BigDecimal price;
 
     private UUID uuid;
 

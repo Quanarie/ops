@@ -1,8 +1,8 @@
 package com.ops.ops.mappers;
 
 import com.ops.ops.persistence.entities.OfferEntity;
-import com.ops.ops.rest.dto.offer.requests.CreateOfferRequest;
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
+import com.ops.ops.rest.dto.offer.CreateOfferRequest;
+import com.ops.ops.rest.dto.offer.OfferDto;
 
 public class OfferMapper {
 

@@ -1,25 +1,31 @@
-package com.ops.ops.rest.dto.customer.requests;
+package com.ops.ops.rest.dto.customer;
 
-import com.ops.ops.rest.dto.customer.CustomerRole;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NonNull;
+
 
 @Getter
 @Builder
 public class CreateCustomerRequest {
 
+    @NotBlank
     private final String name;
 
+    @NotBlank
     private final String address;
 
+    @NotBlank
     private final String username;
 
+    @NotBlank
     private final String password;
 
+    @NotBlank
     private final String phoneNumber;
 
+    @NotNull
     private final CustomerRole role;
 
 }

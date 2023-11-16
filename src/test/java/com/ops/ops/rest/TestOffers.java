@@ -1,19 +1,20 @@
 package com.ops.ops.rest;
 
 import com.ops.ops.persistence.entities.OfferEntity;
-import com.ops.ops.rest.dto.offer.requests.CreateOfferRequest;
-import com.ops.ops.rest.dto.offer.requests.UpdateOfferRequest;
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
+import com.ops.ops.rest.dto.offer.CreateOfferRequest;
+import com.ops.ops.rest.dto.offer.UpdateOfferRequest;
+import com.ops.ops.rest.dto.offer.OfferDto;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class TestOffers {
 
     private static final UUID DEFAULT_UUID = UUID.fromString("52bbd059-f8b0-4a2c-a4d5-e8817d699bb8");
     private static final String DEFAULT_TITLE = "Ice Cream";
-    private static final Float DEFAULT_PRICE = 10F;
+    private static final BigDecimal DEFAULT_PRICE = new BigDecimal(10);
     private static final String UPDATED_TITLE = "Ice Cream with chocolate";
-    private static final Float UPDATED_PRICE = 15F;
+    private static final BigDecimal UPDATED_PRICE = new BigDecimal(15);
 
     public static final OfferDto OFFER_DTO = createOfferDto();
     public static final OfferDto UPDATED_OFFER_DTO = createUpdatedOfferDto();

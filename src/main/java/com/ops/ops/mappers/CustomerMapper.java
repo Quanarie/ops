@@ -1,9 +1,8 @@
 package com.ops.ops.mappers;
 
 import com.ops.ops.persistence.entities.CustomerEntity;
-import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
-import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.ops.ops.rest.dto.customer.CreateCustomerRequest;
+import com.ops.ops.rest.dto.customer.CustomerDto;
 import org.springframework.stereotype.Component;
 
 @Component

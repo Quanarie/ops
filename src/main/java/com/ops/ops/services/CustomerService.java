@@ -1,8 +1,8 @@
 package com.ops.ops.services;
 
-import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
-import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import com.ops.ops.rest.dto.customer.requests.UpdateCustomerRequest;
+import com.ops.ops.rest.dto.customer.CreateCustomerRequest;
+import com.ops.ops.rest.dto.customer.CustomerDto;
+import com.ops.ops.rest.dto.customer.UpdateCustomerRequest;
 
 public interface CustomerService {
 

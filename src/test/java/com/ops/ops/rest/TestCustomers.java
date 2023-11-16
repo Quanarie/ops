@@ -2,9 +2,9 @@ package com.ops.ops.rest;
 
 import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.rest.dto.customer.CustomerRole;
-import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
-import com.ops.ops.rest.dto.customer.requests.UpdateCustomerRequest;
-import com.ops.ops.rest.dto.customer.responces.CustomerDto;
+import com.ops.ops.rest.dto.customer.CreateCustomerRequest;
+import com.ops.ops.rest.dto.customer.UpdateCustomerRequest;
+import com.ops.ops.rest.dto.customer.CustomerDto;
 
 public class TestCustomers {
 

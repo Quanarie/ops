@@ -1,4 +1,4 @@
-package com.ops.ops.rest.dto.order.requests;
+package com.ops.ops.rest.dto.order;
 
 import com.ops.ops.rest.dto.order.OrderStatus;
 import lombok.*;

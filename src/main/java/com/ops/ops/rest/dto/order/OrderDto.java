@@ -1,12 +1,9 @@
-package com.ops.ops.rest.dto.order.responces;
+package com.ops.ops.rest.dto.order;
 
-import com.ops.ops.rest.dto.customer.responces.CustomerDto;
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
+import com.ops.ops.rest.dto.customer.CustomerDto;
+import com.ops.ops.rest.dto.offer.OfferDto;
 import com.ops.ops.rest.dto.order.OrderStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

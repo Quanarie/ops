@@ -5,9 +5,9 @@ import com.ops.ops.rest.TestCustomers;
 import com.ops.ops.rest.TestOffers;
 import com.ops.ops.persistence.entities.OfferEntity;
 import com.ops.ops.persistence.repositories.OfferRepository;
-import com.ops.ops.rest.dto.offer.requests.CreateOfferRequest;
-import com.ops.ops.rest.dto.offer.requests.UpdateOfferRequest;
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
+import com.ops.ops.rest.dto.offer.CreateOfferRequest;
+import com.ops.ops.rest.dto.offer.UpdateOfferRequest;
+import com.ops.ops.rest.dto.offer.OfferDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +71,7 @@ public class OfferControllerTest {
 
         assertNotNull(responseOffer.getUuid());
         assertEquals(responseOffer.getTitle(), TestOffers.OFFER_DTO.getTitle());
-        assertEquals(responseOffer.getPrice(), TestOffers.OFFER_DTO.getPrice());
+        assertEquals(0, responseOffer.getPrice().compareTo(TestOffers.OFFER_DTO.getPrice()));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class OfferControllerTest {
 
         assertNotNull(responseOffer.getUuid());
         assertEquals(TestOffers.UPDATED_OFFER_DTO.getTitle(), responseOffer.getTitle());
-        assertEquals(TestOffers.UPDATED_OFFER_DTO.getPrice(), responseOffer.getPrice());
+        assertEquals(0, responseOffer.getPrice().compareTo(TestOffers.UPDATED_OFFER_DTO.getPrice()));
     }
 
     @Test

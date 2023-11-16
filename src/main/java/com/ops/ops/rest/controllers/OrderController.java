@@ -1,10 +1,11 @@
 package com.ops.ops.rest.controllers;
 
-import com.ops.ops.rest.dto.order.requests.CreateOrderRequest;
-import com.ops.ops.rest.dto.order.requests.UpdateOrderRequest;
-import com.ops.ops.rest.dto.order.responces.OrderDto;
+import com.ops.ops.rest.dto.order.CreateOrderRequest;
+import com.ops.ops.rest.dto.order.UpdateOrderRequest;
+import com.ops.ops.rest.dto.order.OrderDto;
 import com.ops.ops.services.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

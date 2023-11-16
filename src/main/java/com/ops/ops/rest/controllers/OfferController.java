@@ -1,11 +1,11 @@
 package com.ops.ops.rest.controllers;
 
-import com.ops.ops.rest.dto.offer.requests.CreateOfferRequest;
-import com.ops.ops.rest.dto.offer.requests.UpdateOfferRequest;
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
-import com.ops.ops.rest.dto.order.responces.OrderDto;
+import com.ops.ops.rest.dto.offer.CreateOfferRequest;
+import com.ops.ops.rest.dto.offer.UpdateOfferRequest;
+import com.ops.ops.rest.dto.offer.OfferDto;
 import com.ops.ops.services.OfferService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

@@ -1,10 +1,8 @@
 package com.ops.ops.services;
 
-import com.ops.ops.rest.dto.offer.requests.CreateOfferRequest;
-import com.ops.ops.rest.dto.offer.requests.UpdateOfferRequest;
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
-import com.ops.ops.rest.dto.order.requests.CreateOrderRequest;
-import com.ops.ops.rest.dto.order.requests.UpdateOrderRequest;
+import com.ops.ops.rest.dto.offer.CreateOfferRequest;
+import com.ops.ops.rest.dto.offer.UpdateOfferRequest;
+import com.ops.ops.rest.dto.offer.OfferDto;
 
 import java.util.UUID;
 

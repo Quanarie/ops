@@ -1,4 +1,4 @@
-package com.ops.ops.rest.dto.customer.responces;
+package com.ops.ops.rest.dto.customer;
 
 import com.ops.ops.rest.dto.customer.CustomerRole;
 import lombok.*;
