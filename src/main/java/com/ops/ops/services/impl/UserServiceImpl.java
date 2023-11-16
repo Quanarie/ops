@@ -1,12 +1,12 @@
 package com.ops.ops.services.impl;
 
-import com.ops.ops.mappers.CustomerMapper;
-import com.ops.ops.persistence.entities.CustomerEntity;
-import com.ops.ops.persistence.repositories.CustomerRepository;
-import com.ops.ops.rest.dto.customer.CreateCustomerRequest;
-import com.ops.ops.rest.dto.customer.UpdateCustomerRequest;
-import com.ops.ops.rest.dto.customer.CustomerDto;
-import com.ops.ops.services.CustomerService;
+import com.ops.ops.mappers.UserMapper;
+import com.ops.ops.persistence.entities.UserEntity;
+import com.ops.ops.persistence.repositories.UserRepository;
+import com.ops.ops.rest.dto.user.CreateUserRequest;
+import com.ops.ops.rest.dto.user.UpdateUserRequest;
+import com.ops.ops.rest.dto.user.UserDto;
+import com.ops.ops.services.UserService;
 import com.ops.ops.exceptions.ExceptionCodes;
 import com.ops.ops.exceptions.ConflictException;
 import com.ops.ops.exceptions.NotFoundException;
@@ -18,47 +18,47 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerServiceImpl implements CustomerService {
+public class UserServiceImpl implements UserService {
 
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Override
-    public CustomerDto create(CreateCustomerRequest request) {
-        if (customerRepository.findByUsername(request.getUsername()).isPresent()) {
+    public UserDto create(CreateUserRequest request) {
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             throw new ConflictException(
                     "Username " + request.getUsername() + " is already taken",
-                    ExceptionCodes.CUSTOMER_ALREADY_EXISTS
+                    ExceptionCodes.USER_ALREADY_EXISTS
             );
         }
 
         String encodedPassword = encoder.encode(request.getPassword());
-        CustomerEntity entity = customerRepository.save(CustomerMapper.toEntity(request, encodedPassword));
+        UserEntity entity = userRepository.save(UserMapper.toEntity(request, encodedPassword));
 
-        return CustomerMapper.toDto(entity);
+        return UserMapper.toDto(entity);
     }
 
     @Override
     @PreAuthorize("#username == authentication.principal.username")
-    public CustomerDto get(String username) {
-        CustomerEntity entity = customerRepository.findByUsername(username)
+    public UserDto get(String username) {
+        UserEntity entity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(
                                 "Profile with username " + username + " does not exist",
-                                ExceptionCodes.CUSTOMER_NOT_FOUND
+                                ExceptionCodes.USER_NOT_FOUND
                         )
                 );
 
-        return CustomerMapper.toDto(entity);
+        return UserMapper.toDto(entity);
     }
 
     @Override
     @PreAuthorize("#username == authentication.principal.username")
-    public CustomerDto update(String username, UpdateCustomerRequest request) {
-        CustomerEntity entity = customerRepository.findByUsername(username)
+    public UserDto update(String username, UpdateUserRequest request) {
+        UserEntity entity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(
                                 "Profile with username " + username + " does not exist",
-                                ExceptionCodes.CUSTOMER_NOT_FOUND
+                                ExceptionCodes.USER_NOT_FOUND
                         )
                 );
 
@@ -71,13 +71,13 @@ public class CustomerServiceImpl implements CustomerService {
         if (null != request.getAddress())
             entity.setAddress(request.getAddress());
 
-        return CustomerMapper.toDto(customerRepository.save(entity));
+        return UserMapper.toDto(userRepository.save(entity));
     }
 
     @Override
     @Transactional
     @PreAuthorize("#username == authentication.principal.username")
     public void delete(String username) {
-        customerRepository.deleteByUsername(username);
+        userRepository.deleteByUsername(username);
     }
 }

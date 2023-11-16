@@ -1,4 +1,4 @@
-package com.ops.ops.rest.dto.customer;
+package com.ops.ops.rest.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CreateCustomerRequest {
+public class CreateUserRequest {
 
     @NotBlank
     private final String name;
@@ -26,6 +26,6 @@ public class CreateCustomerRequest {
     private final String phoneNumber;
 
     @NotNull
-    private final CustomerRole role;
+    private final UserRole role;
 
 }

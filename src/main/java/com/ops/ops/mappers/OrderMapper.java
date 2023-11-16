@@ -1,6 +1,6 @@
 package com.ops.ops.mappers;
 
-import com.ops.ops.persistence.entities.CustomerEntity;
+import com.ops.ops.persistence.entities.UserEntity;
 import com.ops.ops.persistence.entities.OfferEntity;
 import com.ops.ops.persistence.entities.OrderEntity;
 import com.ops.ops.rest.dto.order.CreateOrderRequest;
@@ -19,19 +19,19 @@ public class OrderMapper {
                 .status(orderEntity.getStatus())
                 .offer(OfferMapper.toDto(orderEntity.getOffer()))
                 .creationDate(orderEntity.getCreationDate())
-                .customer(CustomerMapper.toDto(orderEntity.getCustomer()))
+                .user(UserMapper.toDto(orderEntity.getUser()))
                 .build();
     }
 
     public static OrderEntity toEntity(CreateOrderRequest request,
-                                       CustomerEntity customerEntity,
+                                       UserEntity userEntity,
                                        OfferEntity offerEntity) {
         return OrderEntity.builder()
                 .status(request.getStatus())
                 .quantity(request.getQuantity())
                 .offer(offerEntity)
                 .creationDate(LocalDateTime.now())
-                .customer(customerEntity)
+                .user(userEntity)
                 .build();
     }
 }

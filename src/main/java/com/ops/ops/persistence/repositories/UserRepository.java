@@ -1,15 +1,15 @@
 package com.ops.ops.persistence.repositories;
 
-import com.ops.ops.persistence.entities.CustomerEntity;
+import com.ops.ops.persistence.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<CustomerEntity> findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
     void deleteByUsername(String username);
 

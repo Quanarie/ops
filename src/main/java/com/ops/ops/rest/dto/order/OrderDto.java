@@ -1,6 +1,6 @@
 package com.ops.ops.rest.dto.order;
 
-import com.ops.ops.rest.dto.customer.CustomerDto;
+import com.ops.ops.rest.dto.user.UserDto;
 import com.ops.ops.rest.dto.offer.OfferDto;
 import com.ops.ops.rest.dto.order.OrderStatus;
 import lombok.*;
@@ -18,7 +18,7 @@ public class OrderDto {
 
     private OfferDto offer;
 
-    private CustomerDto customer;
+    private UserDto user;
 
     private OrderStatus status;
 

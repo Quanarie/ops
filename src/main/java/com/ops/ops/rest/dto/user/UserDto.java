@@ -1,13 +1,12 @@
-package com.ops.ops.rest.dto.customer;
+package com.ops.ops.rest.dto.user;
 
-import com.ops.ops.rest.dto.customer.CustomerRole;
 import lombok.*;
 
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDto {
+public class UserDto {
 
     private String name;
 
@@ -17,6 +16,6 @@ public class CustomerDto {
 
     private String phoneNumber;
 
-    private CustomerRole role;
+    private UserRole role;
 
 }

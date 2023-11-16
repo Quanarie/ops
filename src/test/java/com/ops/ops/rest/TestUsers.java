@@ -1,12 +1,12 @@
 package com.ops.ops.rest;
 
-import com.ops.ops.persistence.entities.CustomerEntity;
-import com.ops.ops.rest.dto.customer.CustomerRole;
-import com.ops.ops.rest.dto.customer.CreateCustomerRequest;
-import com.ops.ops.rest.dto.customer.UpdateCustomerRequest;
-import com.ops.ops.rest.dto.customer.CustomerDto;
+import com.ops.ops.persistence.entities.UserEntity;
+import com.ops.ops.rest.dto.user.UserRole;
+import com.ops.ops.rest.dto.user.CreateUserRequest;
+import com.ops.ops.rest.dto.user.UpdateUserRequest;
+import com.ops.ops.rest.dto.user.UserDto;
 
-public class TestCustomers {
+public class TestUsers {
 
     public static final String DEFAULT_USERNAME = "superHero";
     public static final String DEFAULT_ADDRESS = "New York";
@@ -17,53 +17,53 @@ public class TestCustomers {
     public static final String UPDATED_NAME = "Hulk";
     public static final String UPDATED_PHONE = "0987654321";
 
-    public static CustomerDto CUSTOMER_DTO = createCustomerDto();
-    public static CustomerDto UPDATED_CUSTOMER_DTO = createUpdatedCustomerDto();
-    public static CustomerEntity CUSTOMER_ENTITY = createCustomerEntity();
-    public static CreateCustomerRequest CREATE_CUSTOMER_REQUEST = createCreateCustomerRequest();
-    public static UpdateCustomerRequest UPDATE_CUSTOMER_REQUEST = createUpdateCustomerRequest();
+    public static UserDto USER_DTO = createUserDto();
+    public static UserDto UPDATED_USER_DTO = createUpdatedUserDto();
+    public static UserEntity USER_ENTITY = createUserEntity();
+    public static CreateUserRequest CREATE_USER_REQUEST = createCreateUserRequest();
+    public static UpdateUserRequest UPDATE_USER_REQUEST = createUpdateUserRequest();
 
-    private static CustomerDto createCustomerDto() {
-        return CustomerDto.builder()
+    private static UserDto createUserDto() {
+        return UserDto.builder()
                 .address(DEFAULT_ADDRESS)
                 .username(DEFAULT_USERNAME)
                 .name(DEFAULT_NAME)
                 .phoneNumber(DEFAULT_PHONE)
-                .role(CustomerRole.BUYER)
+                .role(UserRole.BUYER)
                 .build();
     }
 
-    private static CustomerDto createUpdatedCustomerDto() {
-        return createCustomerDto().toBuilder()
+    private static UserDto createUpdatedUserDto() {
+        return createUserDto().toBuilder()
                 .name(UPDATED_NAME)
                 .phoneNumber(UPDATED_PHONE)
                 .build();
     }
 
-    private static CustomerEntity createCustomerEntity() {
-        return CustomerEntity.builder()
+    private static UserEntity createUserEntity() {
+        return UserEntity.builder()
                 .address(DEFAULT_ADDRESS)
                 .username(DEFAULT_USERNAME)
                 .name(DEFAULT_NAME)
                 .phoneNumber(DEFAULT_PHONE)
                 .passwordHash(DEFAULT_PASSWORD_HASH)
-                .role(CustomerRole.BUYER)
+                .role(UserRole.BUYER)
                 .build();
     }
 
-    private static CreateCustomerRequest createCreateCustomerRequest() {
-        return CreateCustomerRequest.builder()
+    private static CreateUserRequest createCreateUserRequest() {
+        return CreateUserRequest.builder()
                 .address(DEFAULT_ADDRESS)
                 .username(DEFAULT_USERNAME)
                 .name(DEFAULT_NAME)
                 .phoneNumber(DEFAULT_PHONE)
                 .password(DEFAULT_PASSWORD)
-                .role(CustomerRole.BUYER)
+                .role(UserRole.BUYER)
                 .build();
     }
 
-    private static UpdateCustomerRequest createUpdateCustomerRequest() {
-        return UpdateCustomerRequest.builder()
+    private static UpdateUserRequest createUpdateUserRequest() {
+        return UpdateUserRequest.builder()
                 .address(DEFAULT_ADDRESS)
                 .name(UPDATED_NAME)
                 .phoneNumber(UPDATED_PHONE)

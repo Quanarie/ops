@@ -1,7 +1,7 @@
 package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ops.ops.rest.TestCustomers;
+import com.ops.ops.rest.TestUsers;
 import com.ops.ops.rest.TestOffers;
 import com.ops.ops.persistence.entities.OfferEntity;
 import com.ops.ops.persistence.repositories.OfferRepository;
@@ -40,7 +40,7 @@ public class OfferControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "SELLER")
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "SELLER")
     void shouldCreateOffer() throws Exception {
         CreateOfferRequest request = TestOffers.CREATE_OFFER_REQUEST;
 
@@ -57,7 +57,7 @@ public class OfferControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME)
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME)
     void shouldGetOffer() throws Exception {
         offerRepository.save(TestOffers.OFFER_ENTITY);
 
@@ -75,7 +75,7 @@ public class OfferControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "SELLER")
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "SELLER")
     void shouldUpdateOffer() throws Exception {
         offerRepository.save(TestOffers.OFFER_ENTITY);
 
@@ -97,7 +97,7 @@ public class OfferControllerTest {
 
     @Test
     @Transactional  // TODO без цього тест не проходиться
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "SELLER")
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "SELLER")
     void shouldDeleteOffer() throws Exception {
         OfferEntity saved = offerRepository.save(TestOffers.OFFER_ENTITY);
 

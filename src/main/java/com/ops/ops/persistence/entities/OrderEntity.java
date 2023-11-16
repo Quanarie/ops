@@ -28,8 +28,8 @@ public class OrderEntity {
     private OfferEntity offer;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private CustomerEntity customer;
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     private int quantity;
 

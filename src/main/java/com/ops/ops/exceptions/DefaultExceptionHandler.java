@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class DefaultExceptionHandler {
 
     @ExceptionHandler(OpsException.class)
-    public ResponseEntity<ErrorDto> handleCustomerException(OpsException ex, WebRequest request) {
+    public ResponseEntity<ErrorDto> handleUserException(OpsException ex, WebRequest request) {
         ErrorDto errorDTO = new ErrorDto(ex.getLocalizedMessage(), ex.getExceptionCode());
         return buildResponseEntity(ex.getHttpStatus(), errorDTO);
     }

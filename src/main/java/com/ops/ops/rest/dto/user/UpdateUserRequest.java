@@ -1,4 +1,4 @@
-package com.ops.ops.rest.dto.customer;
+package com.ops.ops.rest.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UpdateCustomerRequest {
+public class UpdateUserRequest {
 
     @NotBlank
     private final String name;

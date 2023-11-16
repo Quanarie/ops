@@ -1,6 +1,6 @@
 package com.ops.ops.persistence.entities;
 
-import com.ops.ops.rest.dto.customer.CustomerRole;
+import com.ops.ops.rest.dto.user.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "customers")
-public class CustomerEntity {
+@Table(name = "users")
+public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     private Long id;
 
     @Column(unique = true)
@@ -30,6 +30,6 @@ public class CustomerEntity {
 
     private String phoneNumber;
 
-    private CustomerRole role;
+    private UserRole role;
 
 }

@@ -12,28 +12,29 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/offers")
 public class OfferController {
 
     private final OfferService offerService;
 
-    @PostMapping(path = "/offers")
+    @PostMapping
     public OfferDto createOrder(@RequestBody CreateOfferRequest request) {
         return offerService.create(request);
     }
 
-    @GetMapping(path = "/offers")
+    @GetMapping
     public OfferDto getOrder(@RequestParam("uuid") UUID uuid) {
         return offerService.get(uuid);
     }
 
-    @PutMapping(path = "/offers")
-    public OfferDto updateCustomer(@RequestParam("uuid") UUID uuid,
+    @PutMapping
+    public OfferDto updateUser(@RequestParam("uuid") UUID uuid,
                                    @RequestBody UpdateOfferRequest request) {
         return offerService.update(uuid, request);
     }
 
-    @DeleteMapping(path = "/offers")
-    public void deleteCustomer(@RequestParam("uuid") UUID uuid) {
+    @DeleteMapping
+    public void deleteUser(@RequestParam("uuid") UUID uuid) {
         offerService.delete(uuid);
     }
 }

@@ -2,11 +2,11 @@ package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.ops.ops.rest.TestCustomers;
+import com.ops.ops.rest.TestUsers;
 import com.ops.ops.rest.TestOffers;
 import com.ops.ops.rest.TestOrders;
 import com.ops.ops.persistence.entities.OrderEntity;
-import com.ops.ops.persistence.repositories.CustomerRepository;
+import com.ops.ops.persistence.repositories.UserRepository;
 import com.ops.ops.persistence.repositories.OfferRepository;
 import com.ops.ops.persistence.repositories.OrderRepository;
 import com.ops.ops.rest.dto.order.CreateOrderRequest;
@@ -34,7 +34,7 @@ public class OrderControllerTest {
     private OrderRepository orderRepository;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private OfferRepository offerRepository;
@@ -50,19 +50,19 @@ public class OrderControllerTest {
 
     @BeforeEach
     void writeTestUserToDatabase() {
-        customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
+        userRepository.save(TestUsers.USER_ENTITY);
         offerRepository.save(TestOffers.OFFER_ENTITY);
     }
 
     @AfterEach
     void cleanup() {
         orderRepository.deleteAll();
-        customerRepository.deleteAll();
+        userRepository.deleteAll();
         offerRepository.deleteAll();
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "BUYER")
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "BUYER")
     void shouldCreateOrder() throws Exception {
         CreateOrderRequest request = TestOrders.CREATE_ORDER_REQUEST;
 
@@ -78,11 +78,11 @@ public class OrderControllerTest {
         assertEquals(TestOrders.ORDER_DTO.getOffer(), responseOrder.getOffer());
         assertEquals(TestOrders.ORDER_DTO.getStatus(), responseOrder.getStatus());
         assertEquals(TestOrders.ORDER_DTO.getQuantity(), responseOrder.getQuantity());
-        assertEquals(TestOrders.ORDER_DTO.getCustomer().getUsername(), responseOrder.getCustomer().getUsername());
+        assertEquals(TestOrders.ORDER_DTO.getUser().getUsername(), responseOrder.getUser().getUsername());
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "BUYER")
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "BUYER")
     void shouldGetOrder() throws Exception {
         orderRepository.save(TestOrders.ORDER_ENTITY);
 
@@ -98,11 +98,11 @@ public class OrderControllerTest {
         assertEquals(TestOrders.ORDER_DTO.getOffer(), responseOrder.getOffer());
         assertEquals(TestOrders.ORDER_DTO.getStatus(), responseOrder.getStatus());
         assertEquals(TestOrders.ORDER_DTO.getQuantity(), responseOrder.getQuantity());
-        assertEquals(TestOrders.ORDER_DTO.getCustomer().getUsername(), responseOrder.getCustomer().getUsername());
+        assertEquals(TestOrders.ORDER_DTO.getUser().getUsername(), responseOrder.getUser().getUsername());
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "DELIVERER")
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "DELIVERER")
     void shouldUpdateOrder() throws Exception {
         orderRepository.save(TestOrders.ORDER_ENTITY);
 
@@ -121,7 +121,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "BUYER")
+    @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "BUYER")
     void shouldDeleteOrder() throws Exception {
         OrderEntity saved = orderRepository.save(TestOrders.ORDER_ENTITY);
 

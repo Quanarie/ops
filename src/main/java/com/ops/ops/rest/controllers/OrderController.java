@@ -12,27 +12,28 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/orders")
 public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping(path = "/orders")
+    @PostMapping
     public OrderDto createOrder(@RequestBody CreateOrderRequest request) {
         return orderService.create(request);
     }
 
-    @GetMapping(path = "/orders")
+    @GetMapping
     public OrderDto getOrder(@RequestParam("uuid") UUID uuid) {
         return orderService.get(uuid);
     }
 
-    @PutMapping(path = "/orders")
+    @PutMapping
     public OrderDto updateOrder(@RequestParam("uuid") UUID uuid,
                                    @RequestBody UpdateOrderRequest request) {
         return orderService.update(uuid, request);
     }
 
-    @DeleteMapping(path = "/orders")
+    @DeleteMapping
     public void deleteOrder(@RequestParam("uuid") UUID uuid) {
         orderService.delete(uuid);
     }

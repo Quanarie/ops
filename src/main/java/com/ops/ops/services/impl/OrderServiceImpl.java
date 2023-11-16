@@ -1,10 +1,10 @@
 package com.ops.ops.services.impl;
 
 import com.ops.ops.mappers.OrderMapper;
-import com.ops.ops.persistence.entities.CustomerEntity;
+import com.ops.ops.persistence.entities.UserEntity;
 import com.ops.ops.persistence.entities.OfferEntity;
 import com.ops.ops.persistence.entities.OrderEntity;
-import com.ops.ops.persistence.repositories.CustomerRepository;
+import com.ops.ops.persistence.repositories.UserRepository;
 import com.ops.ops.persistence.repositories.OfferRepository;
 import com.ops.ops.persistence.repositories.OrderRepository;
 import com.ops.ops.rest.dto.order.CreateOrderRequest;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     private final OrderRepository orderRepository;
 
@@ -39,11 +39,11 @@ public class OrderServiceImpl implements OrderService {
                 .getAuthentication()
                 .getName();
 
-        CustomerEntity customer = customerRepository
+        UserEntity user = userRepository
                 .findByUsername(currentUsername)
                 .orElseThrow(() -> new NotFoundException(
                                 "Authenticated user " + currentUsername + " not found",
-                                ExceptionCodes.CUSTOMER_NOT_FOUND
+                                ExceptionCodes.USER_NOT_FOUND
                         )
                 );
 
@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
                         )
                 );
 
-        OrderEntity toBeSaved = OrderMapper.toEntity(request, customer, offer);
+        OrderEntity toBeSaved = OrderMapper.toEntity(request, user, offer);
 
         return OrderMapper.toDto(orderRepository.save(toBeSaved));
     }
