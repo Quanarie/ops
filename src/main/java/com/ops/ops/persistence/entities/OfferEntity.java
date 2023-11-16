@@ -22,11 +22,11 @@ public class OfferEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
     private Long id;
 
-    private UUID uuid;
-
     private String title;
 
     private Float price;
+
+    private UUID uuid;
 
     @PrePersist
     public void initializeUUID() {

@@ -14,8 +14,8 @@ public class CreateOrderRequest {
 
     private UUID offerUuid;
 
-    private int quantity;
-
     private OrderStatus status;
+
+    private int quantity;
 
 }

@@ -1,15 +1,12 @@
 package com.ops.ops.rest.dto.customer.responces;
 
 import com.ops.ops.rest.dto.customer.CustomerRole;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDto {
 
     private String name;

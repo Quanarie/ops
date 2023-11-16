@@ -4,21 +4,22 @@ import com.ops.ops.rest.dto.customer.CustomerRole;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 
 @Getter
 @Builder
 public class CreateCustomerRequest {
 
-    private String name;
+    private final String name;
 
-    private String address;
+    private final String address;
 
-    private String username;
+    private final String username;
 
-    private String password;
+    private final String password;
 
-    private String phoneNumber;
+    private final String phoneNumber;
 
-    private CustomerRole role;
+    private final CustomerRole role;
 
 }

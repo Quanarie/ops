@@ -7,8 +7,8 @@ import com.ops.ops.rest.dto.offer.requests.CreateOfferRequest;
 import com.ops.ops.rest.dto.offer.requests.UpdateOfferRequest;
 import com.ops.ops.rest.dto.offer.responces.OfferDto;
 import com.ops.ops.services.OfferService;
-import com.ops.ops.utils.ExceptionCodes;
-import com.ops.ops.utils.exceptions.NotFoundException;
+import com.ops.ops.exceptions.ExceptionCodes;
+import com.ops.ops.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -57,9 +57,7 @@ public class OfferServiceImpl implements OfferService {
         if (null != request.getPrice())
             entity.setPrice(request.getPrice());
 
-        offerRepository.save(entity);
-
-        return OfferMapper.toDto(entity);
+        return OfferMapper.toDto(offerRepository.save(entity));
     }
 
     @Override

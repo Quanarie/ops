@@ -3,9 +3,9 @@ package com.ops.ops.rest.dto.order.requests;
 import com.ops.ops.rest.dto.order.OrderStatus;
 import lombok.*;
 
-@Data
+@Getter
 @Builder
-@NoArgsConstructor  // ASK doesnt work with builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class UpdateOrderRequest {
 

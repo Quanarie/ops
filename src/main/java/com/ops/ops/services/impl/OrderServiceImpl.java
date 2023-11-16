@@ -11,16 +11,14 @@ import com.ops.ops.rest.dto.order.requests.CreateOrderRequest;
 import com.ops.ops.rest.dto.order.requests.UpdateOrderRequest;
 import com.ops.ops.rest.dto.order.responces.OrderDto;
 import com.ops.ops.services.OrderService;
-import com.ops.ops.utils.ExceptionCodes;
-import com.ops.ops.utils.exceptions.NotFoundException;
+import com.ops.ops.exceptions.ExceptionCodes;
+import com.ops.ops.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -44,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
         CustomerEntity customer = customerRepository
                 .findByUsername(currentUsername)
                 .orElseThrow(() -> new NotFoundException(
-                                "Authenticated user " + currentUsername + " is not found in database",
+                                "Authenticated user " + currentUsername + " not found",
                                 ExceptionCodes.CUSTOMER_NOT_FOUND
                         )
                 );
@@ -52,13 +50,12 @@ public class OrderServiceImpl implements OrderService {
         OfferEntity offer = offerRepository
                 .findByUuid(request.getOfferUuid())
                 .orElseThrow(() -> new NotFoundException(
-                                "Offer with uuid " + request.getOfferUuid() + " is not found in database",
+                                "Offer with uuid " + request.getOfferUuid() + " not found",
                                 ExceptionCodes.OFFER_NOT_FOUND
                         )
                 );
 
         OrderEntity toBeSaved = OrderMapper.toEntity(request, customer, offer);
-        toBeSaved.setCreationDate(LocalDateTime.now());
 
         return OrderMapper.toDto(orderRepository.save(toBeSaved));
     }
@@ -66,32 +63,30 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @PreAuthorize("hasRole('ROLE_BUYER')")
     public OrderDto get(UUID uuid) {
-        Optional<OrderEntity> orderEntityOptional = orderRepository.findByUuid(uuid);
-        if (orderEntityOptional.isEmpty()) {
-            throw new NotFoundException(
-                    "Order with uuid " + uuid + " does not exist",
-                    ExceptionCodes.ORDER_NOT_FOUND
-            );
-        }
+        OrderEntity entity = orderRepository.findByUuid(uuid)
+                .orElseThrow(() -> new NotFoundException(
+                                "Order with uuid " + uuid + " does not exist",
+                                ExceptionCodes.ORDER_NOT_FOUND
+                        )
+                );
 
-        return OrderMapper.toDto(orderEntityOptional.get());
+        return OrderMapper.toDto(entity);
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_DELIVERY_GUY')")   // ASK
+    @PreAuthorize("hasRole('ROLE_DELIVERY_GUY')")
     public OrderDto update(UUID uuid, UpdateOrderRequest request) {
-        Optional<OrderEntity> orderEntityOptional = orderRepository.findByUuid(uuid);
-        if (orderEntityOptional.isEmpty()) {
-            throw new NotFoundException(
-                    "Order with uuid " + uuid + " does not exist",
-                    ExceptionCodes.ORDER_NOT_FOUND
-            );
-        }
+        OrderEntity entity = orderRepository.findByUuid(uuid)
+                .orElseThrow(() -> new NotFoundException(
+                                "Order with uuid " + uuid + " does not exist",
+                                ExceptionCodes.ORDER_NOT_FOUND
+                        )
+                );
 
-        OrderEntity orderEntity = orderEntityOptional.get();
-        orderEntity.setStatus(request.getStatus());
+        if (null != request.getStatus())
+            entity.setStatus(request.getStatus());
 
-        return OrderMapper.toDto(orderRepository.save(orderEntity));
+        return OrderMapper.toDto(orderRepository.save(entity));
     }
 
     @Override

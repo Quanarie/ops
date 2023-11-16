@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerMapper  {
 
-    private static final BCryptPasswordEncoder encoder  = new BCryptPasswordEncoder();
-
     public static CustomerDto toDto(CustomerEntity customerEntity) {
         return CustomerDto.builder()
                 .address(customerEntity.getAddress())
@@ -21,13 +19,13 @@ public class CustomerMapper  {
                 .build();
     }
 
-    public static CustomerEntity toEntity(CreateCustomerRequest request) {
+    public static CustomerEntity toEntity(CreateCustomerRequest request, String passwordHash) {
         return CustomerEntity.builder()
                 .address(request.getAddress())
                 .username(request.getUsername())
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
-                .passwordHash(encoder.encode(request.getPassword())) // ASK fttb
+                .passwordHash(passwordHash)
                 .role(request.getRole())
                 .build();
     }

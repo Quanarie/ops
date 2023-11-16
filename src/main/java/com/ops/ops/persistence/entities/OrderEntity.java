@@ -23,15 +23,6 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     private Long id;
 
-    private UUID uuid;
-
-    @PrePersist
-    public void initializeUUID() {
-        if (uuid == null) {
-            uuid = UUID.randomUUID();
-        }
-    }
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private OfferEntity offer;
@@ -45,5 +36,14 @@ public class OrderEntity {
     private OrderStatus status;
 
     private LocalDateTime creationDate;
+
+    private UUID uuid;
+
+    @PrePersist
+    public void initializeUUID() {
+        if (uuid == null) {
+            uuid = UUID.randomUUID();
+        }
+    }
 
 }

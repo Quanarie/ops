@@ -7,15 +7,14 @@ import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
 import com.ops.ops.rest.dto.customer.requests.UpdateCustomerRequest;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;
 import com.ops.ops.services.CustomerService;
-import com.ops.ops.utils.ExceptionCodes;
-import com.ops.ops.utils.exceptions.ConflictException;
-import com.ops.ops.utils.exceptions.NotFoundException;
+import com.ops.ops.exceptions.ExceptionCodes;
+import com.ops.ops.exceptions.ConflictException;
+import com.ops.ops.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,72 +22,56 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @Override
     public CustomerDto create(CreateCustomerRequest request) {
-        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByUsername(request.getUsername());
-        if (customerEntityOptional.isPresent()) {
+        if (customerRepository.findByUsername(request.getUsername()).isPresent()) {
             throw new ConflictException(
                     "Username " + request.getUsername() + " is already taken",
                     ExceptionCodes.CUSTOMER_ALREADY_EXISTS
             );
         }
 
-        customerRepository.save(CustomerMapper.toEntity(request));
+        String encodedPassword = encoder.encode(request.getPassword());
+        CustomerEntity entity = customerRepository.save(CustomerMapper.toEntity(request, encodedPassword));
 
-        return CustomerMapper.toDto(customerRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new NotFoundException(
-                                "Problem with creation of user " + request.getUsername(),
-                                ExceptionCodes.CUSTOMER_NOT_FOUND
-                        )
-                )
-        );
+        return CustomerMapper.toDto(entity);
     }
 
     @Override
     @PreAuthorize("#username == authentication.principal.username")
     public CustomerDto get(String username) {
-        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByUsername(username);
-        if (customerEntityOptional.isEmpty()) {
-            throw new NotFoundException(
-                    "Profile with username " + username + " does not exist",
-                    ExceptionCodes.CUSTOMER_NOT_FOUND
-            );
-        }
+        CustomerEntity entity = customerRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(
+                                "Profile with username " + username + " does not exist",
+                                ExceptionCodes.CUSTOMER_NOT_FOUND
+                        )
+                );
 
-        return CustomerMapper.toDto(customerEntityOptional.get());
+        return CustomerMapper.toDto(entity);
     }
 
     @Override
     @PreAuthorize("#username == authentication.principal.username")
     public CustomerDto update(String username, UpdateCustomerRequest request) {
-        Optional<CustomerEntity> customerEntityOptional = customerRepository.findByUsername(username);
-        if (customerEntityOptional.isEmpty()) {
-            throw new NotFoundException(
-                    "Profile with username " + username + " does not exist",
-                    ExceptionCodes.CUSTOMER_NOT_FOUND
-            );
-        }
-
-        CustomerEntity customerEntity = customerEntityOptional.get();
-
-        if (null != request.getName())
-            customerEntity.setName(request.getName());
-
-        if (null != request.getPhoneNumber())
-            customerEntity.setPhoneNumber(request.getPhoneNumber());
-
-        if (null != request.getAddress())
-            customerEntity.setAddress(request.getAddress());
-
-        customerRepository.save(customerEntity);
-
-        return CustomerMapper.toDto(customerRepository.findByUsername(customerEntity.getUsername()) // ASK
+        CustomerEntity entity = customerRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(
-                                "Problem with getting user " + customerEntity.getUsername(),
+                                "Profile with username " + username + " does not exist",
                                 ExceptionCodes.CUSTOMER_NOT_FOUND
                         )
-                )
-        );
+                );
+
+        if (null != request.getName())
+            entity.setName(request.getName());
+
+        if (null != request.getPhoneNumber())
+            entity.setPhoneNumber(request.getPhoneNumber());
+
+        if (null != request.getAddress())
+            entity.setAddress(request.getAddress());
+
+        return CustomerMapper.toDto(customerRepository.save(entity));
     }
 
     @Override

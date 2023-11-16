@@ -1,4 +1,4 @@
-package com.ops.ops.utils;
+package com.ops.ops.exceptions;
 
 public interface ExceptionCodes {
 

@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UpdateCustomerRequest {    // TODO ASK нулі
+public class UpdateCustomerRequest {
 
-    private String name;
+    private final String name;
 
-    private String address;
+    private final String address;
 
-    private String phoneNumber;
+    private final String phoneNumber;
 
 }

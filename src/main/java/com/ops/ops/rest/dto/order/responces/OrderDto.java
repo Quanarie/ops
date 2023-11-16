@@ -13,8 +13,8 @@ import java.util.UUID;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderDto {
 
     private UUID uuid;
@@ -23,10 +23,10 @@ public class OrderDto {
 
     private CustomerDto customer;
 
-    private int quantity;
-
     private OrderStatus status;
 
     private LocalDateTime creationDate;
+
+    private int quantity;
 
 }

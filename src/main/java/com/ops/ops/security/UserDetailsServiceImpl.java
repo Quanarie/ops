@@ -2,8 +2,8 @@ package com.ops.ops.security;
 
 import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
-import com.ops.ops.utils.ExceptionCodes;
-import com.ops.ops.utils.exceptions.NotFoundException;
+import com.ops.ops.exceptions.ExceptionCodes;
+import com.ops.ops.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

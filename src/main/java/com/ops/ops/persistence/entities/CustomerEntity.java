@@ -19,14 +19,14 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
     private Long id;
 
-    private String name;
-
-    private String address;
-
     @Column(unique = true)
     private String username;
 
     private String passwordHash;
+
+    private String name;
+
+    private String address;
 
     private String phoneNumber;
 
