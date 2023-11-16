@@ -22,8 +22,8 @@ public class OfferServiceImpl implements OfferService {
 
     private final OfferRepository offerRepository;
 
-//    @PreAuthorize("hasRole('BUYER')")
     @Override
+    @PreAuthorize("hasRole('ROLE_SELLER')")
     public OfferDto create(CreateOfferRequest request) {
         OfferEntity entity = offerRepository.save(OfferMapper.toEntity(request));
 
@@ -43,6 +43,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_SELLER')")
     public OfferDto update(UUID uuid, UpdateOfferRequest request) {
         OfferEntity entity = offerRepository.findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException(
@@ -59,7 +60,8 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    @Transactional  // ASK needed this to work
+    @Transactional
+    @PreAuthorize("hasRole('ROLE_SELLER')")
     public void delete(UUID uuid) {
         offerRepository.deleteByUuid(uuid);
     }

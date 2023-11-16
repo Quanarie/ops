@@ -16,6 +16,7 @@ import com.ops.ops.utils.ExceptionCodes;
 import com.ops.ops.utils.exceptions.ops.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
     private final OfferRepository offerRepository;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_BUYER')")
     public OrderDto create(CreateOrderRequest request) {
         String currentUsername = SecurityContextHolder
                 .getContext()
@@ -63,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_BUYER')")
     public OrderDto get(UUID uuid) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findByUuid(uuid);
         if (orderEntityOptional.isEmpty()) {
@@ -76,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_DELIVERY_GUY')")   // ASK
     public OrderDto update(UUID uuid, UpdateOrderRequest request) {
         Optional<OrderEntity> orderEntityOptional = orderRepository.findByUuid(uuid);
         if (orderEntityOptional.isEmpty()) {
@@ -93,6 +97,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ROLE_BUYER')")
     public void delete(UUID uuid) {
         orderRepository.deleteByUuid(uuid);
     }

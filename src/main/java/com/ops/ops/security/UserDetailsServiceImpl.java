@@ -29,7 +29,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         )
                 );
 
-        return new User(customerEntity.getUsername(), customerEntity.getPasswordHash(),
-                Collections.singletonList(new SimpleGrantedAuthority(customerEntity.getRole().toString())));
+        return new User(
+                customerEntity.getUsername(),
+                customerEntity.getPasswordHash(),
+                Collections.singletonList(
+                        new SimpleGrantedAuthority(
+                                "ROLE_" + customerEntity.getRole().toString()
+                        )
+                )
+        );
     }
 }
