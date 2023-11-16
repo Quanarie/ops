@@ -8,8 +8,8 @@ import com.ops.ops.rest.dto.customer.requests.UpdateCustomerRequest;
 import com.ops.ops.rest.dto.customer.responces.CustomerDto;
 import com.ops.ops.services.CustomerService;
 import com.ops.ops.utils.ExceptionCodes;
-import com.ops.ops.utils.exceptions.ops.exceptions.ConflictException;
-import com.ops.ops.utils.exceptions.ops.exceptions.NotFoundException;
+import com.ops.ops.utils.exceptions.ConflictException;
+import com.ops.ops.utils.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -70,9 +70,15 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         CustomerEntity customerEntity = customerEntityOptional.get();
-        customerEntity.setName(request.getName());
-        customerEntity.setPhoneNumber(request.getPhoneNumber());
-        customerEntity.setAddress(request.getAddress());
+
+        if (null != request.getName())
+            customerEntity.setName(request.getName());
+
+        if (null != request.getPhoneNumber())
+            customerEntity.setPhoneNumber(request.getPhoneNumber());
+
+        if (null != request.getAddress())
+            customerEntity.setAddress(request.getAddress());
 
         customerRepository.save(customerEntity);
 

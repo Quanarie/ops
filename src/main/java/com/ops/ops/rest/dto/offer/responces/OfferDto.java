@@ -15,6 +15,6 @@ public class OfferDto {
 
     private String title;
 
-    private float price;
+    private Float price;
 
 }

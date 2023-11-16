@@ -1,6 +1,5 @@
 package com.ops.ops.utils.exceptions;
 
-import com.ops.ops.utils.exceptions.ops.exceptions.OpsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

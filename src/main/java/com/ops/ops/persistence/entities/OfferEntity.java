@@ -26,7 +26,7 @@ public class OfferEntity {
 
     private String title;
 
-    private float price;
+    private Float price;
 
     @PrePersist
     public void initializeUUID() {

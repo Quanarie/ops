@@ -9,6 +9,6 @@ public class UpdateOfferRequest {
 
     private String title;
 
-    private float price;
+    private Float price;
 
 }
