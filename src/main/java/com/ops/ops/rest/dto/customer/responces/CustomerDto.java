@@ -4,7 +4,7 @@ import com.ops.ops.rest.dto.customer.CustomerRole;
 import lombok.*;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerDto {

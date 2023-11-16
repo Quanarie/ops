@@ -1,13 +1,11 @@
 package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ops.ops.TestCustomers;
-import com.ops.ops.mappers.CustomerMapper;
+import com.ops.ops.rest.TestCustomers;
 import com.ops.ops.persistence.entities.CustomerEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
 import com.ops.ops.rest.dto.customer.requests.CreateCustomerRequest;
 import com.ops.ops.rest.dto.customer.requests.UpdateCustomerRequest;
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -54,16 +51,16 @@ public class CustomerControllerTest {
 
     @Test
     void shouldNotCreateCustomersWithSameUsername() throws Exception {
-        customerRepository.save(TestCustomers.CUSTOMER_ENTITY); //same username as CUSTOMER_DTO
+        customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
 
         mockMvc.perform(post("/customers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(TestCustomers.CUSTOMER_DTO)))
+                        .content(objectMapper.writeValueAsString(TestCustomers.CREATE_CUSTOMER_REQUEST)))
                 .andExpect(status().isConflict());
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME)
     void shouldGetCustomer() throws Exception {
         customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
 
@@ -77,8 +74,8 @@ public class CustomerControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
-    void shouldNotGetIfUsernameIsNotInDatabase() throws Exception {
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME)
+    void shouldNotGetIfNotInDatabase() throws Exception {
         mockMvc.perform(get("/customers")
                         .param("username", TestCustomers.CUSTOMER_ENTITY.getUsername())
                         .contentType(MediaType.APPLICATION_JSON))
@@ -86,7 +83,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME)
     void shouldUpdateCustomer() throws Exception {
         customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
 
@@ -103,9 +100,9 @@ public class CustomerControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME)
     void shouldDeleteCustomer() throws Exception {
-        CustomerEntity savedCustomerEntity = customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
+        CustomerEntity saved = customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
 
         mockMvc.perform(delete("/customers")
                         .param("username", TestCustomers.CUSTOMER_ENTITY.getUsername())
@@ -113,6 +110,6 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        assertFalse(customerRepository.existsById(savedCustomerEntity.getId()));
+        assertFalse(customerRepository.existsById(saved.getId()));
     }
 }

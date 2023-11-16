@@ -2,16 +2,13 @@ package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.ops.ops.TestCustomers;
-import com.ops.ops.TestOffers;
-import com.ops.ops.TestOrders;
-import com.ops.ops.mappers.OrderMapper;
-import com.ops.ops.persistence.entities.OfferEntity;
+import com.ops.ops.rest.TestCustomers;
+import com.ops.ops.rest.TestOffers;
+import com.ops.ops.rest.TestOrders;
 import com.ops.ops.persistence.entities.OrderEntity;
 import com.ops.ops.persistence.repositories.CustomerRepository;
 import com.ops.ops.persistence.repositories.OfferRepository;
 import com.ops.ops.persistence.repositories.OrderRepository;
-import com.ops.ops.rest.dto.offer.responces.OfferDto;
 import com.ops.ops.rest.dto.order.requests.CreateOrderRequest;
 import com.ops.ops.rest.dto.order.requests.UpdateOrderRequest;
 import com.ops.ops.rest.dto.order.responces.OrderDto;
@@ -25,10 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class OrderControllerTest {
 
-    @Autowired  // ASK
+    @Autowired  // TODO
     private OrderRepository orderRepository;
 
     @Autowired
@@ -57,9 +51,7 @@ public class OrderControllerTest {
     @BeforeEach
     void writeTestUserToDatabase() {
         customerRepository.save(TestCustomers.CUSTOMER_ENTITY);
-        OfferEntity offerEntity = offerRepository.save(TestOffers.OFFER_ENTITY);
-
-        TestOrders.CREATE_ORDER_REQUEST.setOfferUuid(offerEntity.getUuid());
+        offerRepository.save(TestOffers.OFFER_ENTITY);
     }
 
     @AfterEach
@@ -70,7 +62,7 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername, roles = "BUYER")
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "BUYER")
     void shouldCreateOrder() throws Exception {
         CreateOrderRequest request = TestOrders.CREATE_ORDER_REQUEST;
 
@@ -82,13 +74,15 @@ public class OrderControllerTest {
 
         OrderDto responseOrder = objectMapper.readValue(response, OrderDto.class);
 
-        assertEquals(TestOrders.ORDER_DTO.getOffer().getUuid(), responseOrder.getOffer().getUuid());
+        assertNotNull(responseOrder.getUuid());
+        assertEquals(TestOrders.ORDER_DTO.getOffer(), responseOrder.getOffer());
         assertEquals(TestOrders.ORDER_DTO.getStatus(), responseOrder.getStatus());
+        assertEquals(TestOrders.ORDER_DTO.getQuantity(), responseOrder.getQuantity());
         assertEquals(TestOrders.ORDER_DTO.getCustomer().getUsername(), responseOrder.getCustomer().getUsername());
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername, roles = "BUYER")
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "BUYER")
     void shouldGetOrder() throws Exception {
         orderRepository.save(TestOrders.ORDER_ENTITY);
 
@@ -100,13 +94,15 @@ public class OrderControllerTest {
 
         OrderDto responseOrder = objectMapper.readValue(response, OrderDto.class);
 
-        assertEquals(TestOrders.ORDER_ENTITY.getOffer().getUuid(), responseOrder.getOffer().getUuid());
-        assertEquals(TestOrders.ORDER_ENTITY.getStatus(), responseOrder.getStatus());
-        assertEquals(TestOrders.ORDER_ENTITY.getCustomer().getUsername(), responseOrder.getCustomer().getUsername());
+        assertNotNull(responseOrder.getUuid());
+        assertEquals(TestOrders.ORDER_DTO.getOffer(), responseOrder.getOffer());
+        assertEquals(TestOrders.ORDER_DTO.getStatus(), responseOrder.getStatus());
+        assertEquals(TestOrders.ORDER_DTO.getQuantity(), responseOrder.getQuantity());
+        assertEquals(TestOrders.ORDER_DTO.getCustomer().getUsername(), responseOrder.getCustomer().getUsername());
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername, roles = "DELIVERY_GUY")
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "DELIVERER")
     void shouldUpdateOrder() throws Exception {
         orderRepository.save(TestOrders.ORDER_ENTITY);
 
@@ -125,9 +121,9 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername, roles = "BUYER")
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "BUYER")
     void shouldDeleteOrder() throws Exception {
-        OrderEntity savedOrderEntity = orderRepository.save(TestOrders.ORDER_ENTITY);
+        OrderEntity saved = orderRepository.save(TestOrders.ORDER_ENTITY);
 
         mockMvc.perform(delete("/orders")
                         .param("uuid", String.valueOf(TestOrders.ORDER_ENTITY.getUuid()))
@@ -135,6 +131,6 @@ public class OrderControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        assertFalse(orderRepository.existsById(savedOrderEntity.getId()));
+        assertFalse(orderRepository.existsById(saved.getId()));
     }
 }

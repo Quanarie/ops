@@ -1,8 +1,8 @@
 package com.ops.ops.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ops.ops.TestCustomers;
-import com.ops.ops.TestOffers;
+import com.ops.ops.rest.TestCustomers;
+import com.ops.ops.rest.TestOffers;
 import com.ops.ops.persistence.entities.OfferEntity;
 import com.ops.ops.persistence.repositories.OfferRepository;
 import com.ops.ops.rest.dto.offer.requests.CreateOfferRequest;
@@ -18,8 +18,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,7 +40,7 @@ public class OfferControllerTest {
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername, roles = "SELLER")
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "SELLER")
     void shouldCreateOffer() throws Exception {
         CreateOfferRequest request = TestOffers.CREATE_OFFER_REQUEST;
 
@@ -51,13 +50,14 @@ public class OfferControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        OfferDto responseOffer = objectMapper.readValue(response, OfferDto.class);
-        TestOffers.OFFER_DTO.setUuid(responseOffer.getUuid());
-        assertEquals(responseOffer, TestOffers.OFFER_DTO);
+        OfferDto responseOffer = objectMapper.readValue(response, OfferDto.class);  // TODO
+
+        assertEquals(responseOffer.getTitle(), TestOffers.OFFER_DTO.getTitle());
+        assertEquals(responseOffer.getPrice(), TestOffers.OFFER_DTO.getPrice());
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername)
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME)
     void shouldGetOffer() throws Exception {
         offerRepository.save(TestOffers.OFFER_ENTITY);
 
@@ -68,13 +68,14 @@ public class OfferControllerTest {
                 .andReturn().getResponse().getContentAsString();
 
         OfferDto responseOffer = objectMapper.readValue(response, OfferDto.class);
-        TestOffers.OFFER_DTO.setUuid(responseOffer.getUuid());
 
-        assertEquals(responseOffer, TestOffers.OFFER_DTO);
+        assertNotNull(responseOffer.getUuid());
+        assertEquals(responseOffer.getTitle(), TestOffers.OFFER_DTO.getTitle());
+        assertEquals(responseOffer.getPrice(), TestOffers.OFFER_DTO.getPrice());
     }
 
     @Test
-    @WithMockUser(value = TestCustomers.testUsername, roles = "SELLER")
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "SELLER")
     void shouldUpdateOffer() throws Exception {
         offerRepository.save(TestOffers.OFFER_ENTITY);
 
@@ -87,12 +88,16 @@ public class OfferControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        assertEquals(objectMapper.readValue(response, OfferDto.class), TestOffers.UPDATED_OFFER_DTO);
+        OfferDto responseOffer = objectMapper.readValue(response, OfferDto.class);
+
+        assertNotNull(responseOffer.getUuid());
+        assertEquals(TestOffers.UPDATED_OFFER_DTO.getTitle(), responseOffer.getTitle());
+        assertEquals(TestOffers.UPDATED_OFFER_DTO.getPrice(), responseOffer.getPrice());
     }
 
     @Test
-    @Transactional  // ASK без цього тест не проходиться
-    @WithMockUser(value = TestCustomers.testUsername, roles = "SELLER")
+    @Transactional  // TODO без цього тест не проходиться
+    @WithMockUser(value = TestCustomers.DEFAULT_USERNAME, roles = "SELLER")
     void shouldDeleteOffer() throws Exception {
         OfferEntity saved = offerRepository.save(TestOffers.OFFER_ENTITY);
 

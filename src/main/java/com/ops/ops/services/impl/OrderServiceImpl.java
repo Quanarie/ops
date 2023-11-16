@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_DELIVERY_GUY')")
+    @PreAuthorize("hasRole('ROLE_DELIVERER')")
     public OrderDto update(UUID uuid, UpdateOrderRequest request) {
         OrderEntity entity = orderRepository.findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException(
