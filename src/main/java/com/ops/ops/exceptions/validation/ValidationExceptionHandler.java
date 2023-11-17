@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ValidationExceptionHandler {
+
     @ExceptionHandler
     ResponseEntity<ErrorDto> exceptionHandler(MethodArgumentNotValidException ex) {
-        ErrorDto errorDto = new ErrorDto(ex.getLocalizedMessage(),
+        ErrorDto errorDto = new ErrorDto(ex.getMessage(),
                 ExceptionCodes.VALIDATION_FAILED);
 
         return buildResponseEntity(errorDto);
@@ -21,7 +22,7 @@ public class ValidationExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<ErrorDto> exceptionHandler(ValidationException ex) {
-        ErrorDto errorDto = new ErrorDto(ex.getLocalizedMessage(),
+        ErrorDto errorDto = new ErrorDto(ex.getMessage(),
                 ExceptionCodes.VALIDATION_FAILED);
 
         return buildResponseEntity(errorDto);

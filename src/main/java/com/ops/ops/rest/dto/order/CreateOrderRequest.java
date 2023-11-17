@@ -18,6 +18,6 @@ public class CreateOrderRequest {
     private OrderStatus status;
 
     @NotNull
-    private int quantity;
+    private Integer quantity;
 
 }
