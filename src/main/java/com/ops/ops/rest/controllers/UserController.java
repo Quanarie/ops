@@ -19,18 +19,18 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserDto createUser(@Valid @RequestBody CreateUserRequest request) {  // ASK random http answer
+    public UserDto createUser(@Valid @RequestBody CreateUserRequest request) {  // TODO random http answer
         return userService.create(request);
     }
 
     @GetMapping
-    public UserDto getUser(@RequestParam("username") @NotBlank String username) {   // ASK why 500 not 400
+    public UserDto getUser(@RequestParam("username") @NotBlank String username) {   // TODO why 500 not 400
         return userService.get(username);
     }
 
     @PutMapping
     public UserDto updateUser(@RequestParam("username") @NotBlank String username,
-                                      @Valid @RequestBody UpdateUserRequest request) {
+                              @RequestBody UpdateUserRequest request) {
         return userService.update(username, request);
     }
 

@@ -11,8 +11,10 @@ import java.math.BigDecimal;
 @Builder
 public class CreateOfferRequest {
 
+    @NotBlank
     private String title;
 
+    @NotNull
     private BigDecimal price;
 
 }

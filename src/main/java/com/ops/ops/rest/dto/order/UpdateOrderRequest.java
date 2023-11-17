@@ -1,6 +1,7 @@
 package com.ops.ops.rest.dto.order;
 
 import com.ops.ops.rest.dto.order.OrderStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter

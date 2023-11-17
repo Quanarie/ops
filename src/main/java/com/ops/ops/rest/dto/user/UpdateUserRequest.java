@@ -9,13 +9,10 @@ import lombok.Getter;
 @Builder
 public class UpdateUserRequest {
 
-    @NotBlank
     private final String name;
 
-    @NotBlank
     private final String address;
 
-    @NotBlank
     private final String phoneNumber;
 
 }
