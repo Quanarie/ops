@@ -23,19 +23,23 @@ public class OrderEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private OfferEntity offer;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    @Column(nullable = false)
     private Integer quantity;
 
+    @Column(nullable = false)
     private OrderStatus status;
 
+    @Column(nullable = false)
     private LocalDateTime creationDate;
 
+    @Column(nullable = false)
     private UUID uuid;
 
     @PrePersist

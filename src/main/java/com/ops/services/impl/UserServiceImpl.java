@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("#username == authentication.principal.username")
     public UserDto get(String username) {
         UserEntity entity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(
@@ -53,7 +52,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @PreAuthorize("#username == authentication.principal.username")
     public UserDto update(String username, UpdateUserRequest request) {
         UserEntity entity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException(
@@ -76,7 +74,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    @PreAuthorize("#username == authentication.principal.username")
     public void delete(String username) {
         userRepository.deleteByUsername(username);
     }

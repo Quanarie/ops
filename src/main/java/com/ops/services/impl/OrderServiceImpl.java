@@ -32,7 +32,6 @@ public class OrderServiceImpl implements OrderService {
     private final OfferRepository offerRepository;
 
     @Override
-    @PreAuthorize("hasRole('ROLE_BUYER')")
     public OrderDto create(CreateOrderRequest request) {
         String currentUsername = SecurityContextHolder
                 .getContext()
@@ -61,7 +60,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_BUYER')")
     public OrderDto get(UUID uuid) {
         OrderEntity entity = orderRepository.findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException(
@@ -74,7 +72,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_DELIVERER')")
     public OrderDto update(UUID uuid, UpdateOrderRequest request) {
         OrderEntity entity = orderRepository.findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException(
@@ -91,7 +88,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ROLE_BUYER')")
     public void delete(UUID uuid) {
         orderRepository.deleteByUuid(uuid);
     }
