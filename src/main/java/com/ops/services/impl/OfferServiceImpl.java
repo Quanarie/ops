@@ -63,4 +63,15 @@ public class OfferServiceImpl implements OfferService {
     public void delete(UUID uuid) {
         offerRepository.deleteByUuid(uuid);
     }
+
+    @Override
+    public OfferEntity getByUuidOrThrow(UUID uuid) {
+        return offerRepository
+                .findByUuid(uuid)
+                .orElseThrow(() -> new NotFoundException(
+                                "Offer with uuid " + uuid + " not found",
+                                ExceptionCodes.OFFER_NOT_FOUND
+                        )
+                );
+    }
 }

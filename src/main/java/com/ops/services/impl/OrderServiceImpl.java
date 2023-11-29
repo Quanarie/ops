@@ -4,18 +4,17 @@ import com.ops.mappers.OrderMapper;
 import com.ops.persistence.entities.UserEntity;
 import com.ops.persistence.entities.OfferEntity;
 import com.ops.persistence.entities.OrderEntity;
-import com.ops.persistence.repositories.UserRepository;
-import com.ops.persistence.repositories.OfferRepository;
 import com.ops.persistence.repositories.OrderRepository;
 import com.ops.rest.dto.order.CreateOrderRequest;
 import com.ops.rest.dto.order.UpdateOrderRequest;
 import com.ops.rest.dto.order.OrderDto;
+import com.ops.services.OfferService;
 import com.ops.services.OrderService;
 import com.ops.exceptions.ExceptionCodes;
 import com.ops.exceptions.NotFoundException;
+import com.ops.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +24,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
+
+    private final OfferService offerService;
 
     private final OrderRepository orderRepository;
-
-    private final OfferRepository offerRepository;
 
     @Override
     public OrderDto create(CreateOrderRequest request) {
@@ -38,21 +37,8 @@ public class OrderServiceImpl implements OrderService {
                 .getAuthentication()
                 .getName();
 
-        UserEntity user = userRepository
-                .findByUsername(currentUsername)
-                .orElseThrow(() -> new NotFoundException(
-                                "Authenticated user " + currentUsername + " not found",
-                                ExceptionCodes.USER_NOT_FOUND
-                        )
-                );
-
-        OfferEntity offer = offerRepository
-                .findByUuid(request.getOfferUuid())
-                .orElseThrow(() -> new NotFoundException(
-                                "Offer with uuid " + request.getOfferUuid() + " not found",
-                                ExceptionCodes.OFFER_NOT_FOUND
-                        )
-                );
+        UserEntity user = userService.getByUsernameOrThrow(currentUsername);
+        OfferEntity offer = offerService.getByUuidOrThrow(request.getOfferUuid());
 
         OrderEntity toBeSaved = OrderMapper.toEntity(request, user, offer);
 

@@ -1,5 +1,8 @@
 package com.ops.services.impl;
 
+import com.ops.exceptions.ConflictException;
+import com.ops.exceptions.ExceptionCodes;
+import com.ops.exceptions.NotFoundException;
 import com.ops.mappers.UserMapper;
 import com.ops.persistence.entities.UserEntity;
 import com.ops.persistence.repositories.UserRepository;
@@ -7,11 +10,7 @@ import com.ops.rest.dto.user.CreateUserRequest;
 import com.ops.rest.dto.user.UpdateUserRequest;
 import com.ops.rest.dto.user.UserDto;
 import com.ops.services.UserService;
-import com.ops.exceptions.ExceptionCodes;
-import com.ops.exceptions.ConflictException;
-import com.ops.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,5 +75,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(String username) {
         userRepository.deleteByUsername(username);
+    }
+
+    @Override
+    public UserEntity getByUsernameOrThrow(String username) {
+        return userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(
+                                "Authenticated user " + username + " not found",
+                                ExceptionCodes.USER_NOT_FOUND
+                        )
+                );
     }
 }
