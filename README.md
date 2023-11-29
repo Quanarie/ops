@@ -5,8 +5,8 @@ This Java-based Order Processing System is designed to
 facilitate the interaction between Sellers and Buyers. 
 It allows Buyers to create orders from available offers,
 while Sellers have the capability to create offers. 
-The system ensures data validation and security, 
-subsequently writing user requests to a PostgreSQL database.
+The system ensures data validation and security while
+interacting with PostgreSQL database.
 
 ## Technologies Used
 - **Spring Boot**: For building stand-alone, production-grade Spring based applications.
