@@ -31,7 +31,7 @@ public class OrderEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    private int quantity;
+    private Integer quantity;
 
     private OrderStatus status;
 

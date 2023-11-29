@@ -19,12 +19,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserDto createUser(@Valid @RequestBody CreateUserRequest request) {  // TODO random http answer
+    public UserDto createUser(@Valid @RequestBody CreateUserRequest request) {
         return userService.create(request);
     }
 
     @GetMapping
-    public UserDto getUser(@RequestParam("username") @NotBlank String username) {   // TODO why 500 not 400
+    public UserDto getUser(@RequestParam("username") @NotBlank String username) {
         return userService.get(username);
     }
 

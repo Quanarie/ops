@@ -1,3 +1,3 @@
 package com.ops.ops.exceptions;
 
-public record ErrorDto(String errorMessage, String exceptionCode){}
+public record ErrorDto(String errorMessage, ExceptionCodes exceptionCode){}

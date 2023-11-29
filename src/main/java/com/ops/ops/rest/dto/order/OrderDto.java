@@ -24,6 +24,6 @@ public class OrderDto {
 
     private LocalDateTime creationDate;
 
-    private int quantity;
+    private Integer quantity;
 
 }

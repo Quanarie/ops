@@ -50,7 +50,7 @@ public class OfferControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        OfferDto responseOffer = objectMapper.readValue(response, OfferDto.class);  // TODO
+        OfferDto responseOffer = objectMapper.readValue(response, OfferDto.class);
 
         assertEquals(responseOffer.getTitle(), TestOffers.OFFER_DTO.getTitle());
         assertEquals(responseOffer.getPrice(), TestOffers.OFFER_DTO.getPrice());
@@ -96,7 +96,7 @@ public class OfferControllerTest {
     }
 
     @Test
-    @Transactional  // TODO без цього тест не проходиться
+    @Transactional
     @WithMockUser(value = TestUsers.DEFAULT_USERNAME, roles = "SELLER")
     void shouldDeleteOffer() throws Exception {
         OfferEntity saved = offerRepository.save(TestOffers.OFFER_ENTITY);
